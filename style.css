@@ -104,13 +104,11 @@ body {
   width: 230px;
   height: 65px;
 
-  border:
-    2px solid #9d50ff;
+  border: 2px solid #9d50ff;
 
   border-radius: 8px;
 
-  background:
-    rgba(20,5,35,.85);
+  background: rgba(20,5,35,.85);
 
   color: white;
 
@@ -122,13 +120,6 @@ body {
 
   box-shadow:
     0 0 15px #702cff;
-}
-
-
-#playBtn:active {
-
-  transform: scale(.94);
-
 }
 
 
@@ -162,9 +153,59 @@ body {
 
 
 .hidden {
-
   display: none !important;
+}
 
+
+/* =========================
+   CAMERA
+========================= */
+
+#camera {
+
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  perspective: 600px;
+}
+
+
+#cameraWorld {
+
+  position: absolute;
+
+  width: 140%;
+  height: 140%;
+
+  left: -20%;
+  top: -20%;
+
+  transform-origin: center center;
+
+  transition:
+    transform .05s linear;
+}
+
+
+#battlefieldView {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(80,80,80,.35),
+      transparent 55%
+    );
 }
 
 
@@ -193,7 +234,6 @@ body {
 .hudLeft {
 
   display: flex;
-
   gap: 8px;
 }
 
@@ -340,9 +380,43 @@ body {
 
   color: #aaa;
 
-  opacity: .8;
-
   z-index: 100;
+}
+
+
+/* =========================
+   DIRECTION
+========================= */
+
+#direction {
+
+  position: absolute;
+
+  left: 50%;
+  top: 18px;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 110;
+
+  padding:
+    5px 12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
+  border-radius: 4px;
+
+  background:
+    rgba(0,0,0,.45);
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+  color: #bbb;
 }
 
 
@@ -411,8 +485,7 @@ body {
 
   transition:
     width .18s ease,
-    height .18s ease,
-    transform .08s ease;
+    height .18s ease;
 }
 
 
@@ -424,9 +497,6 @@ body {
 
   box-shadow:
     0 0 4px black;
-
-  transition:
-    all .15s ease;
 }
 
 
@@ -490,372 +560,81 @@ body {
 
 
 /* =========================
-   ADS CROSSHAIR
+   ADS
 ========================= */
 
 #game.aiming #crosshair {
 
   width: 24px;
   height: 24px;
-
 }
 
 
-#game.aiming .crossTop {
-
-  left: 11px;
-
-  height: 5px;
-
-}
-
-
+#game.aiming .crossTop,
 #game.aiming .crossBottom {
 
   left: 11px;
-
   height: 5px;
-
 }
 
 
-#game.aiming .crossLeft {
-
-  top: 11px;
-
-  width: 5px;
-
-}
-
-
+#game.aiming .crossLeft,
 #game.aiming .crossRight {
 
   top: 11px;
-
   width: 5px;
-
 }
 
 
 /* =========================
-   ADS WEAPON
+   LOOK AREA
 ========================= */
 
-#game.aiming #weapon {
-
-  bottom: -5px;
-
-  transform:
-    translateX(-50%)
-    scale(1.18);
-
-}
-
-
-/* =========================
-   WEAPON RECOIL
-========================= */
-
-#weapon.recoil {
-
-  animation:
-    weaponRecoil .10s ease;
-
-}
-
-
-@keyframes weaponRecoil {
-
-  0% {
-
-    transform:
-      translateX(-50%)
-      translateY(0)
-      rotate(0deg);
-
-  }
-
-  45% {
-
-    transform:
-      translateX(-50%)
-      translateY(18px)
-      rotate(-2deg);
-
-  }
-
-  100% {
-
-    transform:
-      translateX(-50%)
-      translateY(0)
-      rotate(0deg);
-
-  }
-
-}
-
-
-/* =========================
-   CROSSHAIR RECOIL
-========================= */
-
-#crosshair.recoil {
-
-  animation:
-    crossRecoil .12s ease;
-
-}
-
-
-@keyframes crossRecoil {
-
-  0% {
-
-    transform:
-      translate(-50%,-50%);
-
-  }
-
-  40% {
-
-    transform:
-      translate(-50%,-65%)
-      rotate(-4deg);
-
-  }
-
-  100% {
-
-    transform:
-      translate(-50%,-50%)
-      rotate(0deg);
-
-  }
-
-}
-
-
-/* =========================
-   ENEMIES
-========================= */
-
-.combatEnemy {
+#lookArea {
 
   position: absolute;
 
-  width: 70px;
-  height: 145px;
-
-  transform:
-    translate(-50%,-50%);
-
-  z-index: 70;
-
-  transition:
-    left .35s ease,
-    top .35s ease,
-    transform .15s ease,
-    opacity .2s ease;
-}
-
-
-.enemyHealth {
-
-  position: absolute;
-
-  left: 50%;
-  top: -14px;
-
-  width: 70px;
-  height: 6px;
-
-  transform:
-    translateX(-50%);
-
-  background: #111;
-
-  border:
-    1px solid #000;
-
-  border-radius: 4px;
-
-  overflow: hidden;
-}
-
-
-.enemyHealthFill {
-
-  width: 100%;
-  height: 100%;
-
-  background: #70e000;
-
-  transition:
-    width .15s ease;
-}
-
-
-.combatHead {
-
-  position: absolute;
-
-  left: 50%;
+  right: 0;
   top: 0;
 
-  width: 42px;
-  height: 42px;
+  width: 52%;
+  height: 100%;
 
-  transform:
-    translateX(-50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      #999,
-      #3d3d3d
-    );
-
-  border:
-    3px solid #161616;
-}
-
-
-.combatBody {
-
-  position: absolute;
-
-  left: 50%;
-  top: 38px;
-
-  width: 60px;
-  height: 100px;
-
-  transform:
-    translateX(-50%);
-
-  border-radius:
-    18px 18px 8px 8px;
+  z-index: 60;
 
   background:
     linear-gradient(
       90deg,
-      #171717,
-      #4d4d4d,
-      #171717
+      transparent,
+      rgba(255,255,255,.015)
     );
-
-  border:
-    3px solid #111;
 }
 
 
-.combatWeapon {
+#lookHint {
 
   position: absolute;
 
-  width: 60px;
-  height: 9px;
-
-  right: -40px;
-  top: 75px;
-
-  transform:
-    rotate(-8deg);
-
-  border-radius: 4px;
-
-  background: #111;
-}
-
-
-/* =========================
-   HIT MARKER
-========================= */
-
-#hitMarker {
-
-  position: absolute;
-
-  left: 50%;
+  right: 18px;
   top: 50%;
 
-  width: 40px;
-  height: 40px;
-
   transform:
-    translate(-50%,-50%);
+    translateY(-50%);
 
-  z-index: 110;
+  font-size: 8px;
+
+  letter-spacing: 3px;
+
+  color: rgba(255,255,255,.18);
+
+  transition:
+    opacity .3s ease;
+}
+
+
+#lookArea.active #lookHint {
 
   opacity: 0;
-}
-
-
-#hitMarker span {
-
-  position: absolute;
-
-  width: 14px;
-  height: 2px;
-
-  left: 13px;
-  top: 19px;
-
-  background: white;
-}
-
-
-#hitMarker span:nth-child(1) {
-  transform: rotate(45deg);
-}
-
-#hitMarker span:nth-child(2) {
-  transform: rotate(-45deg);
-}
-
-#hitMarker span:nth-child(3) {
-  transform: rotate(135deg);
-}
-
-#hitMarker span:nth-child(4) {
-  transform: rotate(-135deg);
-}
-
-
-/* =========================
-   MUZZLE
-========================= */
-
-#muzzleFlash {
-
-  position: absolute;
-
-  left: 50%;
-  bottom: 24%;
-
-  width: 90px;
-  height: 90px;
-
-  transform:
-    translateX(-50%);
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      white 0%,
-      #ffd45a 15%,
-      #ff6a00 35%,
-      transparent 70%
-    );
-
-  opacity: 0;
-
-  z-index: 95;
 }
 
 
@@ -881,8 +660,14 @@ body {
   pointer-events: none;
 
   transition:
-    bottom .2s ease,
-    transform .2s ease;
+    bottom .2s ease;
+}
+
+
+#game.aiming #weapon {
+
+  bottom: -5px;
+
 }
 
 
@@ -967,6 +752,127 @@ body {
   border-radius: 5px;
 
   background: #111;
+}
+
+
+/* =========================
+   RECOIL
+========================= */
+
+#weapon.recoil {
+
+  animation:
+    weaponRecoil .10s ease;
+}
+
+
+@keyframes weaponRecoil {
+
+  0% {
+    transform:
+      translateX(-50%);
+  }
+
+  45% {
+    transform:
+      translateX(-50%)
+      translateY(18px)
+      rotate(-2deg);
+  }
+
+  100% {
+    transform:
+      translateX(-50%);
+  }
+
+}
+
+
+/* =========================
+   MUZZLE
+========================= */
+
+#muzzleFlash {
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 24%;
+
+  width: 90px;
+  height: 90px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      white 0%,
+      #ffd45a 15%,
+      #ff6a00 35%,
+      transparent 70%
+    );
+
+  opacity: 0;
+
+  z-index: 95;
+}
+
+
+/* =========================
+   HIT MARKER
+========================= */
+
+#hitMarker {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  transform:
+    translate(-50%,-50%);
+
+  z-index: 110;
+
+  opacity: 0;
+}
+
+
+#hitMarker span {
+
+  position: absolute;
+
+  width: 14px;
+  height: 2px;
+
+  left: 13px;
+  top: 19px;
+
+  background: white;
+}
+
+
+#hitMarker span:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+#hitMarker span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+#hitMarker span:nth-child(3) {
+  transform: rotate(135deg);
+}
+
+#hitMarker span:nth-child(4) {
+  transform: rotate(-135deg);
 }
 
 
@@ -1065,7 +971,6 @@ body {
   color: white;
 
   border-color: #a05cff;
-
 }
 
 
@@ -1084,6 +989,8 @@ body {
   height: 190px;
 
   z-index: 130;
+
+  pointer-events: none;
 }
 
 
@@ -1105,6 +1012,8 @@ body {
 
   background:
     rgba(0,0,0,.38);
+
+  pointer-events: auto;
 }
 
 
@@ -1143,6 +1052,8 @@ body {
   align-items: center;
 
   gap: 12px;
+
+  pointer-events: auto;
 }
 
 
@@ -1160,7 +1071,6 @@ body {
   border:
     2px solid
     rgba(255,255,255,.35);
-
 }
 
 
@@ -1175,26 +1085,23 @@ body {
 }
 
 
-#reloadBtn {
-
-  width: 62px;
-  height: 62px;
-
-  border-radius: 50%;
-
-  font-size: 28px;
-}
-
-
+#reloadBtn,
 #adsBtn {
 
   width: 62px;
   height: 62px;
 
   border-radius: 50%;
+}
 
+
+#reloadBtn {
+  font-size: 28px;
+}
+
+
+#adsBtn {
   font-size: 11px;
-
 }
 
 
@@ -1208,14 +1115,9 @@ body {
 }
 
 
-#shootBtn:active,
-#reloadBtn:active,
-#adsBtn:active {
-
-  transform: scale(.9);
-
-}
-
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width:420px) {
 
