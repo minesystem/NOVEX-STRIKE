@@ -1,27 +1,96 @@
 /* =========================
    NØV3X STRIKE
-   V5 MULTI-ENEMY GAME
+   V6 WEAPON SYSTEM
 ========================= */
 
-const playBtn = document.getElementById("playBtn");
-const menu = document.getElementById("menu");
-const game = document.getElementById("game");
+const playBtn =
+  document.getElementById("playBtn");
 
-const shootBtn = document.getElementById("shootBtn");
-const reloadBtn = document.getElementById("reloadBtn");
+const menu =
+  document.getElementById("menu");
 
-const healthText = document.getElementById("health");
-const armorText = document.getElementById("armor");
-const scoreText = document.getElementById("score");
-const ammoText = document.getElementById("ammo");
+const game =
+  document.getElementById("game");
 
-const message = document.getElementById("message");
-const muzzleFlash = document.getElementById("muzzleFlash");
-const hitMarker = document.getElementById("hitMarker");
-const damageOverlay = document.getElementById("damageOverlay");
+const shootBtn =
+  document.getElementById("shootBtn");
 
-const joystick = document.getElementById("joystick");
-const stick = document.getElementById("stick");
+const reloadBtn =
+  document.getElementById("reloadBtn");
+
+const healthText =
+  document.getElementById("health");
+
+const armorText =
+  document.getElementById("armor");
+
+const scoreText =
+  document.getElementById("score");
+
+const ammoText =
+  document.getElementById("ammo");
+
+const maxAmmoText =
+  document.getElementById("maxAmmo");
+
+const weaponNameText =
+  document.getElementById("weaponName");
+
+const message =
+  document.getElementById("message");
+
+const muzzleFlash =
+  document.getElementById("muzzleFlash");
+
+const hitMarker =
+  document.getElementById("hitMarker");
+
+const damageOverlay =
+  document.getElementById("damageOverlay");
+
+const joystick =
+  document.getElementById("joystick");
+
+const stick =
+  document.getElementById("stick");
+
+
+/* =========================
+   WEAPONS
+========================= */
+
+const weapons = [
+
+  {
+    name: "VX-AR",
+    ammo: 30,
+    magazine: 30,
+    damage: 50,
+    fireRate: 250
+  },
+
+  {
+    name: "VX-SMG",
+    ammo: 40,
+    magazine: 40,
+    damage: 30,
+    fireRate: 120
+  },
+
+  {
+    name: "VX-DMR",
+    ammo: 12,
+    magazine: 12,
+    damage: 85,
+    fireRate: 550
+  }
+
+];
+
+
+let currentWeapon = 0;
+
+let canShoot = true;
 
 
 /* =========================
@@ -29,6 +98,7 @@ const stick = document.getElementById("stick");
 ========================= */
 
 let health = 100;
+
 let armor = 100;
 
 let score = 0;
@@ -36,6 +106,7 @@ let score = 0;
 let ammo = 30;
 
 let playing = false;
+
 let reloading = false;
 
 
@@ -46,14 +117,16 @@ let reloading = false;
 let joystickActive = false;
 
 let joystickX = 0;
+
 let joystickY = 0;
 
 let playerX = 50;
+
 let playerY = 50;
 
 
 /* =========================
-   GAME LOOP
+   GAME
 ========================= */
 
 let gameLoop;
@@ -62,7 +135,7 @@ let enemyAttackTimer;
 
 
 /* =========================
-   START GAME
+   START
 ========================= */
 
 playBtn.addEventListener(
@@ -73,9 +146,13 @@ playBtn.addEventListener(
 
 function startGame() {
 
-  menu.classList.add("hidden");
+  menu.classList.add(
+    "hidden"
+  );
 
-  game.classList.remove("hidden");
+  game.classList.remove(
+    "hidden"
+  );
 
 
   health = 100;
@@ -84,7 +161,10 @@ function startGame() {
 
   score = 0;
 
-  ammo = 30;
+
+  currentWeapon = 0;
+
+  setWeapon(0);
 
 
   playerX = 50;
@@ -96,14 +176,11 @@ function startGame() {
 
   reloading = false;
 
+  canShoot = true;
+
 
   updateHUD();
 
-
-  /*
-    Start the new
-    multi-enemy system.
-  */
 
   if (
     typeof startMultipleEnemies ===
@@ -123,9 +200,129 @@ function startGame() {
   startGameLoop();
 
 
-  startEnemyAttackSystem();
+  clearInterval(
+    enemyAttackTimer
+  );
+
+
+  enemyAttackTimer =
+    setInterval(() => {
+
+      if (
+        playing &&
+        typeof enemiesAttack ===
+        "function"
+      ) {
+
+        enemiesAttack();
+
+      }
+
+    }, 2600);
 
 }
+
+
+/* =========================
+   SET WEAPON
+========================= */
+
+function setWeapon(index) {
+
+  if (
+    index < 0 ||
+    index >= weapons.length
+  ) {
+    return;
+  }
+
+
+  currentWeapon = index;
+
+
+  const weapon =
+    weapons[currentWeapon];
+
+
+  ammo =
+    weapon.magazine;
+
+
+  weaponNameText.textContent =
+    weapon.name;
+
+
+  maxAmmoText.textContent =
+    "/" + weapon.magazine;
+
+
+  document
+    .querySelectorAll(
+      ".weaponBtn"
+    )
+    .forEach(button => {
+
+      button.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  const selected =
+    document.querySelector(
+      `[data-weapon="${index}"]`
+    );
+
+
+  if (selected) {
+
+    selected.classList.add(
+      "active"
+    );
+
+  }
+
+
+  updateHUD();
+
+}
+
+
+/* =========================
+   WEAPON BUTTONS
+========================= */
+
+document
+  .querySelectorAll(
+    ".weaponBtn"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const index =
+          Number(
+            button.dataset.weapon
+          );
+
+
+        if (reloading)
+          return;
+
+
+        setWeapon(index);
+
+        showMessage(
+          weapons[index].name
+        );
+
+      }
+    );
+
+  });
 
 
 /* =========================
@@ -155,12 +352,15 @@ function updateHUD() {
 
 function startGameLoop() {
 
-  cancelAnimationFrame(gameLoop);
+  cancelAnimationFrame(
+    gameLoop
+  );
 
 
   function loop() {
 
-    if (!playing) return;
+    if (!playing)
+      return;
 
 
     movePlayer();
@@ -169,7 +369,9 @@ function startGameLoop() {
 
 
     gameLoop =
-      requestAnimationFrame(loop);
+      requestAnimationFrame(
+        loop
+      );
 
   }
 
@@ -180,7 +382,7 @@ function startGameLoop() {
 
 
 /* =========================
-   PLAYER MOVEMENT
+   MOVEMENT
 ========================= */
 
 function movePlayer() {
@@ -194,6 +396,7 @@ function movePlayer() {
 
   playerX +=
     joystickX * speed;
+
 
   playerY +=
     joystickY * speed;
@@ -222,7 +425,7 @@ function movePlayer() {
 
 
 /* =========================
-   WORLD CAMERA
+   WORLD
 ========================= */
 
 function updateWorld() {
@@ -287,11 +490,8 @@ function showMessage(text) {
 
 function shoot(event) {
 
-  if (event) {
-
+  if (event)
     event.preventDefault();
-
-  }
 
 
   if (!playing)
@@ -300,6 +500,14 @@ function shoot(event) {
 
   if (reloading)
     return;
+
+
+  if (!canShoot)
+    return;
+
+
+  const weapon =
+    weapons[currentWeapon];
 
 
   if (ammo <= 0) {
@@ -321,43 +529,44 @@ function shoot(event) {
   muzzle();
 
 
-  /*
-    Find the enemy closest
-    to the crosshair.
-  */
+  canShoot = false;
+
+
+  setTimeout(() => {
+
+    canShoot = true;
+
+  }, weapon.fireRate);
+
 
   if (
-    typeof getTargetEnemy ===
+    typeof getTargetEnemy !==
     "function"
   ) {
 
-    const target =
-      getTargetEnemy();
+    return;
+
+  }
 
 
-    if (target) {
-
-      /*
-        Each shot does
-        50 damage.
-      */
-
-      damageEnemy(
-        target,
-        50
-      );
+  const target =
+    getTargetEnemy();
 
 
-      showHitMarker();
+  if (target) {
 
+    damageEnemy(
+      target,
+      weapon.damage
+    );
 
-    } else {
+    showHitMarker();
 
-      showMessage(
-        "MISS"
-      );
+  } else {
 
-    }
+    showMessage(
+      "MISS"
+    );
 
   }
 
@@ -365,7 +574,7 @@ function shoot(event) {
 
 
 /* =========================
-   MUZZLE FLASH
+   MUZZLE
 ========================= */
 
 function muzzle() {
@@ -405,38 +614,6 @@ function showHitMarker() {
 
 
 /* =========================
-   ENEMY ATTACK SYSTEM
-========================= */
-
-function startEnemyAttackSystem() {
-
-  clearInterval(
-    enemyAttackTimer
-  );
-
-
-  enemyAttackTimer =
-    setInterval(() => {
-
-      if (!playing)
-        return;
-
-
-      if (
-        typeof enemiesAttack ===
-        "function"
-      ) {
-
-        enemiesAttack();
-
-      }
-
-    }, 2600);
-
-}
-
-
-/* =========================
    DAMAGE EFFECT
 ========================= */
 
@@ -462,11 +639,8 @@ function showDamageEffect() {
 
 function reload(event) {
 
-  if (event) {
-
+  if (event)
     event.preventDefault();
-
-  }
 
 
   if (!playing)
@@ -477,7 +651,14 @@ function reload(event) {
     return;
 
 
-  if (ammo === 30) {
+  const weapon =
+    weapons[currentWeapon];
+
+
+  if (
+    ammo ===
+    weapon.magazine
+  ) {
 
     showMessage(
       "MAGAZINE FULL"
@@ -502,7 +683,9 @@ function reload(event) {
       return;
 
 
-    ammo = 30;
+    ammo =
+      weapon.magazine;
+
 
     reloading = false;
 
@@ -514,7 +697,7 @@ function reload(event) {
       "READY"
     );
 
-  }, 1200);
+  }, 1000);
 
 }
 
@@ -611,6 +794,7 @@ function moveJoystick(event) {
       (dx / distance) *
       maxDistance;
 
+
     dy =
       (dy / distance) *
       maxDistance;
@@ -637,11 +821,8 @@ function moveJoystick(event) {
 
 function stopJoystick(event) {
 
-  if (event) {
-
+  if (event)
     event.preventDefault();
-
-  }
 
 
   joystickActive = false;
@@ -653,13 +834,13 @@ function stopJoystick(event) {
 
 
   stick.style.transform =
-    "translate(-50%, -50%)";
+    "translate(-50%,-50%)";
 
 }
 
 
 /* =========================
-   BUTTON EVENTS
+   BUTTONS
 ========================= */
 
 shootBtn.addEventListener(
@@ -731,11 +912,6 @@ function gameOver() {
       "";
 
 
-    /*
-      Remove V5 enemies
-      before the next match.
-    */
-
     document
       .querySelectorAll(
         ".combatEnemy"
@@ -748,4 +924,4 @@ function gameOver() {
 
   }, 1800);
 
-   }
+     }
