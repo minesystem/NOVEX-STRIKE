@@ -1,52 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>NØV3X MOBILE OPS</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>NØV3X STRIKE</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <!-- =========================
+       MAIN MENU
+  ========================== -->
+
   <div id="menu">
-    <h1>NØV3X</h1>
-    <h2>MOBILE OPS</h2>
-    <p>TACTICAL FPS</p>
-    <button id="playBtn">PLAY</button>
+
+    <div class="logo">NØV3X</div>
+
+    <div class="subtitle">STRIKE</div>
+
+    <div class="gameType">
+      MOBILE FPS
+    </div>
+
+    <button id="playBtn">
+      DEPLOY
+    </button>
+
   </div>
+
+
+  <!-- =========================
+       GAME
+  ========================== -->
 
   <div id="game" class="hidden">
 
+    <!-- Damage overlay -->
+
+    <div id="damageOverlay"></div>
+
+
+    <!-- HUD -->
+
     <div id="hud">
-      <div>❤️ <span id="health">100</span></div>
-      <div>🎯 SCORE: <span id="score">0</span></div>
-      <div>🔫 <span id="ammo">30</span>/30</div>
+
+      <div class="hudLeft">
+
+        <div class="healthBox">
+          ❤️
+          <span id="health">100</span>
+        </div>
+
+        <div class="armorBox">
+          🛡️
+          <span id="armor">100</span>
+        </div>
+
+      </div>
+
+
+      <div class="scoreBox">
+        SCORE
+        <span id="score">0</span>
+      </div>
+
+
+      <div class="ammoBox">
+
+        <span id="ammo">30</span>
+
+        <small>/30</small>
+
+      </div>
+
     </div>
 
-    <div id="crosshair">+</div>
+
+    <!-- Mission text -->
+
+    <div id="mission">
+
+      <span>MISSION</span>
+
+      <strong>ELIMINATE HOSTILES</strong>
+
+    </div>
+
+
+    <!-- Crosshair -->
+
+    <div id="crosshair">
+
+      <span class="crossTop"></span>
+      <span class="crossBottom"></span>
+      <span class="crossLeft"></span>
+      <span class="crossRight"></span>
+
+      <div class="crossDot"></div>
+
+    </div>
+
+
+    <!-- Enemy -->
 
     <div id="enemy">
+
+      <div class="enemyHead"></div>
+
       <div class="enemyBody"></div>
-    </div>
 
-    <div id="controls">
-
-      <div id="joystick">
-        <div id="stick"></div>
-      </div>
-
-      <div id="actionButtons">
-        <button id="reloadBtn">↻</button>
-        <button id="shootBtn">FIRE</button>
-      </div>
+      <div class="enemyWeapon"></div>
 
     </div>
+
+
+    <!-- Hit marker -->
+
+    <div id="hitMarker">
+
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+
+    <!-- Muzzle flash -->
+
+    <div id="muzzleFlash"></div>
+
+
+    <!-- Weapon -->
+
+    <div id="weapon">
+
+      <div class="weaponBody"></div>
+
+      <div class="weaponMagazine"></div>
+
+      <div class="weaponBarrel"></div>
+
+      <div class="weaponGrip"></div>
+
+    </div>
+
+
+    <!-- Game message -->
 
     <div id="message"></div>
 
+
+    <!-- =========================
+         MOBILE CONTROLS
+    ========================== -->
+
+    <div id="controls">
+
+
+      <!-- Movement joystick -->
+
+      <div id="joystick">
+
+        <div id="stick"></div>
+
+      </div>
+
+
+      <!-- Action buttons -->
+
+      <div id="actionButtons">
+
+        <button
+          id="reloadBtn"
+          aria-label="Reload"
+        >
+          ↻
+        </button>
+
+
+        <button
+          id="shootBtn"
+          aria-label="Fire weapon"
+        >
+          FIRE
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
+
   <script src="game.js"></script>
+
 </body>
-</html>
+
+          </html>
