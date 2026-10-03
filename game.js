@@ -1,6 +1,6 @@
 /* =========================
    NØV3X STRIKE
-   V6 WEAPON SYSTEM
+   V7 ADS + RECOIL
 ========================= */
 
 const playBtn =
@@ -17,6 +17,9 @@ const shootBtn =
 
 const reloadBtn =
   document.getElementById("reloadBtn");
+
+const adsBtn =
+  document.getElementById("adsBtn");
 
 const healthText =
   document.getElementById("health");
@@ -35,6 +38,15 @@ const maxAmmoText =
 
 const weaponNameText =
   document.getElementById("weaponName");
+
+const weapon =
+  document.getElementById("weapon");
+
+const crosshair =
+  document.getElementById("crosshair");
+
+const adsStatus =
+  document.getElementById("adsStatus");
 
 const message =
   document.getElementById("message");
@@ -63,7 +75,6 @@ const weapons = [
 
   {
     name: "VX-AR",
-    ammo: 30,
     magazine: 30,
     damage: 50,
     fireRate: 250
@@ -71,7 +82,6 @@ const weapons = [
 
   {
     name: "VX-SMG",
-    ammo: 40,
     magazine: 40,
     damage: 30,
     fireRate: 120
@@ -79,7 +89,6 @@ const weapons = [
 
   {
     name: "VX-DMR",
-    ammo: 12,
     magazine: 12,
     damage: 85,
     fireRate: 550
@@ -89,6 +98,8 @@ const weapons = [
 
 
 let currentWeapon = 0;
+
+let ammo = 30;
 
 let canShoot = true;
 
@@ -103,11 +114,11 @@ let armor = 100;
 
 let score = 0;
 
-let ammo = 30;
-
 let playing = false;
 
 let reloading = false;
+
+let aiming = false;
 
 
 /* =========================
@@ -160,6 +171,17 @@ function startGame() {
   armor = 100;
 
   score = 0;
+
+
+  aiming = false;
+
+  game.classList.remove(
+    "aiming"
+  );
+
+  adsBtn.classList.remove(
+    "active"
+  );
 
 
   currentWeapon = 0;
@@ -224,7 +246,7 @@ function startGame() {
 
 
 /* =========================
-   SET WEAPON
+   WEAPON
 ========================= */
 
 function setWeapon(index) {
@@ -240,20 +262,21 @@ function setWeapon(index) {
   currentWeapon = index;
 
 
-  const weapon =
+  const selectedWeapon =
     weapons[currentWeapon];
 
 
   ammo =
-    weapon.magazine;
+    selectedWeapon.magazine;
 
 
   weaponNameText.textContent =
-    weapon.name;
+    selectedWeapon.name;
 
 
   maxAmmoText.textContent =
-    "/" + weapon.magazine;
+    "/" +
+    selectedWeapon.magazine;
 
 
   document
@@ -290,7 +313,7 @@ function setWeapon(index) {
 
 
 /* =========================
-   WEAPON BUTTONS
+   WEAPON SELECTOR
 ========================= */
 
 document
@@ -303,17 +326,18 @@ document
       "click",
       () => {
 
+        if (reloading)
+          return;
+
+
         const index =
           Number(
             button.dataset.weapon
           );
 
 
-        if (reloading)
-          return;
-
-
         setWeapon(index);
+
 
         showMessage(
           weapons[index].name
@@ -326,16 +350,94 @@ document
 
 
 /* =========================
+   ADS
+========================= */
+
+adsBtn.addEventListener(
+  "touchstart",
+  toggleADS,
+  { passive: false }
+);
+
+
+adsBtn.addEventListener(
+  "mousedown",
+  toggleADS
+);
+
+
+function toggleADS(event) {
+
+  if (event)
+    event.preventDefault();
+
+
+  if (!playing)
+    return;
+
+
+  if (reloading)
+    return;
+
+
+  aiming =
+    !aiming;
+
+
+  if (aiming) {
+
+    game.classList.add(
+      "aiming"
+    );
+
+    adsBtn.classList.add(
+      "active"
+    );
+
+    adsBtn.textContent =
+      "AIM";
+
+    adsStatus.textContent =
+      "ADS";
+
+  } else {
+
+    game.classList.remove(
+      "aiming"
+    );
+
+    adsBtn.classList.remove(
+      "active"
+    );
+
+    adsBtn.textContent =
+      "ADS";
+
+    adsStatus.textContent =
+      "HIP FIRE";
+
+  }
+
+}
+
+
+/* =========================
    HUD
 ========================= */
 
 function updateHUD() {
 
   healthText.textContent =
-    Math.max(0, health);
+    Math.max(
+      0,
+      health
+    );
 
   armorText.textContent =
-    Math.max(0, armor);
+    Math.max(
+      0,
+      armor
+    );
 
   scoreText.textContent =
     score;
@@ -382,7 +484,7 @@ function startGameLoop() {
 
 
 /* =========================
-   MOVEMENT
+   PLAYER MOVEMENT
 ========================= */
 
 function movePlayer() {
@@ -391,7 +493,10 @@ function movePlayer() {
     return;
 
 
-  const speed = 0.10;
+  const speed =
+    aiming
+      ? 0.055
+      : 0.10;
 
 
   playerX +=
@@ -506,7 +611,7 @@ function shoot(event) {
     return;
 
 
-  const weapon =
+  const selectedWeapon =
     weapons[currentWeapon];
 
 
@@ -529,6 +634,9 @@ function shoot(event) {
   muzzle();
 
 
+  recoil();
+
+
   canShoot = false;
 
 
@@ -536,7 +644,7 @@ function shoot(event) {
 
     canShoot = true;
 
-  }, weapon.fireRate);
+  }, selectedWeapon.fireRate);
 
 
   if (
@@ -555,10 +663,19 @@ function shoot(event) {
 
   if (target) {
 
+    const damage =
+      aiming
+        ? Math.round(
+            selectedWeapon.damage * 1.15
+          )
+        : selectedWeapon.damage;
+
+
     damageEnemy(
       target,
-      weapon.damage
+      damage
     );
+
 
     showHitMarker();
 
@@ -569,6 +686,54 @@ function shoot(event) {
     );
 
   }
+
+}
+
+
+/* =========================
+   RECOIL
+========================= */
+
+function recoil() {
+
+  weapon.classList.remove(
+    "recoil"
+  );
+
+  crosshair.classList.remove(
+    "recoil"
+  );
+
+
+  /*
+    Force animation restart.
+  */
+
+  void weapon.offsetWidth;
+
+  void crosshair.offsetWidth;
+
+
+  weapon.classList.add(
+    "recoil"
+  );
+
+  crosshair.classList.add(
+    "recoil"
+  );
+
+
+  setTimeout(() => {
+
+    weapon.classList.remove(
+      "recoil"
+    );
+
+    crosshair.classList.remove(
+      "recoil"
+    );
+
+  }, 140);
 
 }
 
@@ -651,13 +816,13 @@ function reload(event) {
     return;
 
 
-  const weapon =
+  const selectedWeapon =
     weapons[currentWeapon];
 
 
   if (
     ammo ===
-    weapon.magazine
+    selectedWeapon.magazine
   ) {
 
     showMessage(
@@ -684,7 +849,7 @@ function reload(event) {
 
 
     ammo =
-      weapon.magazine;
+      selectedWeapon.magazine;
 
 
     reloading = false;
@@ -775,7 +940,8 @@ function moveJoystick(event) {
     centerY;
 
 
-  const maxDistance = 40;
+  const maxDistance =
+    40;
 
 
   const distance =
@@ -924,4 +1090,4 @@ function gameOver() {
 
   }, 1800);
 
-     }
+}
