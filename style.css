@@ -28,21 +28,15 @@ body {
 }
 
 
-/* =========================
-   MENU
-========================= */
-
 #menu {
 
   width: 100%;
   height: 100vh;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
@@ -60,7 +54,7 @@ body {
 .logo {
 
   font-size:
-    clamp(48px, 14vw, 90px);
+    clamp(48px,14vw,90px);
 
   font-weight: 900;
 
@@ -77,7 +71,7 @@ body {
   margin-top: -5px;
 
   font-size:
-    clamp(24px, 7vw, 40px);
+    clamp(24px,7vw,40px);
 
   font-weight: 800;
 
@@ -121,9 +115,7 @@ body {
   letter-spacing: 4px;
 
   box-shadow:
-    0 0 15px #702cff,
-    inset 0 0 20px
-    rgba(130,50,255,.15);
+    0 0 15px #702cff;
 }
 
 
@@ -133,10 +125,6 @@ body {
 
 }
 
-
-/* =========================
-   GAME
-========================= */
 
 #game {
 
@@ -148,7 +136,6 @@ body {
   overflow: hidden;
 
   background:
-
     linear-gradient(
       rgba(0,0,0,.15),
       rgba(0,0,0,.45)
@@ -167,51 +154,6 @@ body {
 .hidden {
 
   display: none !important;
-
-}
-
-
-/* =========================
-   GROUND
-========================= */
-
-#game::after {
-
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  height: 52%;
-
-  background:
-
-    repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 0,
-      rgba(255,255,255,.025) 2px,
-      transparent 2px,
-      transparent 90px
-    ),
-
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.025) 0,
-      rgba(255,255,255,.025) 2px,
-      transparent 2px,
-      transparent 90px
-    );
-
-  transform:
-    perspective(300px)
-    rotateX(35deg);
-
-  transform-origin: bottom;
-
-  pointer-events: none;
 
 }
 
@@ -243,7 +185,6 @@ body {
   display: flex;
 
   gap: 8px;
-
 }
 
 
@@ -273,7 +214,6 @@ body {
     blur(5px);
 
   font-weight: 800;
-
 }
 
 
@@ -302,7 +242,6 @@ body {
   letter-spacing: 2px;
 
   color: #aaa;
-
 }
 
 
@@ -313,7 +252,6 @@ body {
   font-size: 17px;
 
   color: white;
-
 }
 
 
@@ -331,7 +269,48 @@ body {
   font-size: 13px;
 
   color: #888;
+}
 
+
+/* =========================
+   WEAPON INFO
+========================= */
+
+#weaponInfo {
+
+  position: absolute;
+
+  left: 18px;
+  bottom: 215px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  z-index: 100;
+
+  text-shadow:
+    0 2px 5px black;
+}
+
+
+#weaponInfo span {
+
+  font-size: 8px;
+
+  letter-spacing: 3px;
+
+  color: #aaa;
+}
+
+
+#weaponInfo strong {
+
+  margin-top: 2px;
+
+  font-size: 18px;
+
+  letter-spacing: 2px;
 }
 
 
@@ -357,8 +336,6 @@ body {
 
   z-index: 90;
 
-  text-shadow:
-    0 2px 5px black;
 }
 
 
@@ -369,7 +346,6 @@ body {
   letter-spacing: 3px;
 
   color: #aaa;
-
 }
 
 
@@ -380,7 +356,6 @@ body {
   font-size: 13px;
 
   letter-spacing: 1px;
-
 }
 
 
@@ -402,7 +377,6 @@ body {
     translate(-50%,-50%);
 
   z-index: 80;
-
 }
 
 
@@ -414,7 +388,6 @@ body {
 
   box-shadow:
     0 0 4px black;
-
 }
 
 
@@ -425,7 +398,6 @@ body {
 
   left: 18px;
   top: 0;
-
 }
 
 
@@ -436,7 +408,6 @@ body {
 
   left: 18px;
   bottom: 0;
-
 }
 
 
@@ -447,7 +418,6 @@ body {
 
   left: 0;
   top: 18px;
-
 }
 
 
@@ -458,7 +428,6 @@ body {
 
   right: 0;
   top: 18px;
-
 }
 
 
@@ -478,12 +447,11 @@ body {
   border-radius: 50%;
 
   background: white;
-
 }
 
 
 /* =========================
-   MULTI ENEMIES
+   ENEMIES
 ========================= */
 
 .combatEnemy {
@@ -503,9 +471,6 @@ body {
     top .35s ease,
     transform .15s ease,
     opacity .2s ease;
-
-  pointer-events: none;
-
 }
 
 
@@ -530,7 +495,6 @@ body {
   border-radius: 4px;
 
   overflow: hidden;
-
 }
 
 
@@ -543,7 +507,6 @@ body {
 
   transition:
     width .15s ease;
-
 }
 
 
@@ -571,7 +534,6 @@ body {
 
   border:
     3px solid #161616;
-
 }
 
 
@@ -601,11 +563,6 @@ body {
 
   border:
     3px solid #111;
-
-  box-shadow:
-    0 7px 15px
-    rgba(0,0,0,.7);
-
 }
 
 
@@ -625,7 +582,6 @@ body {
   border-radius: 4px;
 
   background: #111;
-
 }
 
 
@@ -649,7 +605,6 @@ body {
   z-index: 110;
 
   opacity: 0;
-
 }
 
 
@@ -664,7 +619,6 @@ body {
   top: 19px;
 
   background: white;
-
 }
 
 
@@ -716,9 +670,6 @@ body {
   opacity: 0;
 
   z-index: 95;
-
-  pointer-events: none;
-
 }
 
 
@@ -740,9 +691,6 @@ body {
     translateX(-50%);
 
   z-index: 85;
-
-  pointer-events: none;
-
 }
 
 
@@ -756,7 +704,8 @@ body {
   left: 20px;
   top: 35px;
 
-  transform: rotate(-5deg);
+  transform:
+    rotate(-5deg);
 
   border-radius: 8px;
 
@@ -768,7 +717,6 @@ body {
 
   border:
     3px solid #0b0b0b;
-
 }
 
 
@@ -783,7 +731,6 @@ body {
   top: 27px;
 
   background: #101010;
-
 }
 
 
@@ -797,7 +744,8 @@ body {
   left: 65px;
   top: 65px;
 
-  transform: rotate(10deg);
+  transform:
+    rotate(10deg);
 
   border-radius: 5px;
 
@@ -808,7 +756,6 @@ body {
       #4a4a4a,
       #111
     );
-
 }
 
 
@@ -822,12 +769,12 @@ body {
   left: 115px;
   top: 60px;
 
-  transform: rotate(10deg);
+  transform:
+    rotate(10deg);
 
   border-radius: 5px;
 
   background: #111;
-
 }
 
 
@@ -851,9 +798,6 @@ body {
   opacity: 0;
 
   z-index: 105;
-
-  pointer-events: none;
-
 }
 
 
@@ -871,19 +815,68 @@ body {
   transform:
     translate(-50%,-50%);
 
-  text-align: center;
-
   font-size: 25px;
 
   font-weight: 900;
 
   letter-spacing: 2px;
 
-  text-shadow:
-    0 2px 8px black;
+  text-align: center;
 
   z-index: 120;
+}
 
+
+/* =========================
+   WEAPON SELECTOR
+========================= */
+
+#weaponSelector {
+
+  position: absolute;
+
+  right: 18px;
+  bottom: 205px;
+
+  display: flex;
+
+  gap: 6px;
+
+  z-index: 140;
+}
+
+
+.weaponBtn {
+
+  width: 55px;
+  height: 38px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.3);
+
+  border-radius: 6px;
+
+  background:
+    rgba(0,0,0,.65);
+
+  color: #aaa;
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+
+.weaponBtn.active {
+
+  color: white;
+
+  border-color: #a05cff;
+
+  box-shadow:
+    0 0 12px
+    rgba(140,70,255,.45);
 }
 
 
@@ -902,7 +895,6 @@ body {
   height: 190px;
 
   z-index: 130;
-
 }
 
 
@@ -924,7 +916,6 @@ body {
 
   background:
     rgba(0,0,0,.38);
-
 }
 
 
@@ -948,7 +939,6 @@ body {
 
   border:
     2px solid #b678ff;
-
 }
 
 
@@ -964,7 +954,6 @@ body {
   align-items: center;
 
   gap: 16px;
-
 }
 
 
@@ -983,7 +972,6 @@ body {
   border:
     2px solid
     rgba(255,255,255,.35);
-
 }
 
 
@@ -993,7 +981,6 @@ body {
   height: 92px;
 
   border-color: #ff5555;
-
 }
 
 
@@ -1003,7 +990,6 @@ body {
   height: 62px;
 
   font-size: 28px;
-
 }
 
 
@@ -1011,13 +997,8 @@ body {
 #reloadBtn:active {
 
   transform: scale(.9);
-
 }
 
-
-/* =========================
-   SMALL PHONES
-========================= */
 
 @media (max-width:420px) {
 
