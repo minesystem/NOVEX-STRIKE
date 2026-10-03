@@ -2,43 +2,68 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
   user-select: none;
   -webkit-user-select: none;
+
   touch-action: none;
 }
 
 html,
 body {
+
   width: 100%;
   height: 100%;
+
   overflow: hidden;
+
   background: #050505;
-  font-family: Arial, Helvetica, sans-serif;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
   color: white;
 }
+
 
 /* =========================
    MENU
 ========================= */
 
 #menu {
+
   width: 100%;
   height: 100vh;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   justify-content: center;
 
   text-align: center;
 
   background:
-    radial-gradient(circle at center, #30105a 0%, #10071b 42%, #020204 100%);
+    radial-gradient(
+      circle at center,
+      #30105a 0%,
+      #10071b 42%,
+      #020204 100%
+    );
 }
 
+
 .logo {
-  font-size: clamp(48px, 14vw, 90px);
+
+  font-size:
+    clamp(48px, 14vw, 90px);
+
   font-weight: 900;
+
   letter-spacing: 10px;
 
   text-shadow:
@@ -46,53 +71,75 @@ body {
     0 0 35px #702cff;
 }
 
+
 .subtitle {
+
   margin-top: -5px;
 
-  font-size: clamp(24px, 7vw, 40px);
+  font-size:
+    clamp(24px, 7vw, 40px);
+
   font-weight: 800;
+
   letter-spacing: 12px;
 }
 
+
 .gameType {
+
   margin-top: 15px;
 
   font-size: 13px;
+
   letter-spacing: 5px;
+
   color: #aaa;
 }
 
+
 #playBtn {
+
   margin-top: 45px;
 
   width: 230px;
   height: 65px;
 
-  border: 2px solid #9d50ff;
+  border:
+    2px solid #9d50ff;
+
   border-radius: 8px;
 
-  background: rgba(20, 5, 35, .85);
+  background:
+    rgba(20,5,35,.85);
 
   color: white;
 
   font-size: 20px;
+
   font-weight: 900;
+
   letter-spacing: 4px;
 
   box-shadow:
     0 0 15px #702cff,
-    inset 0 0 20px rgba(130, 50, 255, .15);
+    inset 0 0 20px
+    rgba(130,50,255,.15);
 }
 
+
 #playBtn:active {
+
   transform: scale(.94);
+
 }
+
 
 /* =========================
    GAME
 ========================= */
 
 #game {
+
   position: relative;
 
   width: 100%;
@@ -101,10 +148,12 @@ body {
   overflow: hidden;
 
   background:
+
     linear-gradient(
-      rgba(0, 0, 0, .15),
-      rgba(0, 0, 0, .45)
+      rgba(0,0,0,.15),
+      rgba(0,0,0,.45)
     ),
+
     linear-gradient(
       to bottom,
       #394047 0%,
@@ -114,13 +163,20 @@ body {
     );
 }
 
+
 .hidden {
+
   display: none !important;
+
 }
 
-/* Ground */
+
+/* =========================
+   GROUND
+========================= */
 
 #game::after {
+
   content: "";
 
   position: absolute;
@@ -132,6 +188,7 @@ body {
   height: 52%;
 
   background:
+
     repeating-linear-gradient(
       90deg,
       rgba(255,255,255,.025) 0,
@@ -139,6 +196,7 @@ body {
       transparent 2px,
       transparent 90px
     ),
+
     repeating-linear-gradient(
       0deg,
       rgba(255,255,255,.025) 0,
@@ -147,17 +205,23 @@ body {
       transparent 90px
     );
 
-  transform: perspective(300px) rotateX(35deg);
+  transform:
+    perspective(300px)
+    rotateX(35deg);
+
   transform-origin: bottom;
 
   pointer-events: none;
+
 }
+
 
 /* =========================
    HUD
 ========================= */
 
 #hud {
+
   position: absolute;
 
   top: 12px;
@@ -165,114 +229,167 @@ body {
   right: 12px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
-  z-index: 50;
+  z-index: 100;
 }
 
+
 .hudLeft {
+
   display: flex;
+
   gap: 8px;
+
 }
+
 
 .healthBox,
 .armorBox,
 .scoreBox,
 .ammoBox {
+
   min-height: 40px;
 
   display: flex;
+
   align-items: center;
 
   padding: 7px 11px;
 
-  border: 1px solid rgba(255,255,255,.18);
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
   border-radius: 6px;
 
-  background: rgba(0,0,0,.58);
+  background:
+    rgba(0,0,0,.58);
 
-  backdrop-filter: blur(5px);
+  backdrop-filter:
+    blur(5px);
 
   font-weight: 800;
+
 }
+
 
 .healthBox {
+
   color: #ff6868;
+
 }
+
 
 .armorBox {
+
   color: #73bfff;
+
 }
 
+
 .scoreBox {
+
   flex-direction: column;
 
   min-width: 90px;
 
   font-size: 9px;
+
   letter-spacing: 2px;
+
   color: #aaa;
+
 }
 
+
 .scoreBox span {
+
   margin-top: 2px;
 
   font-size: 17px;
+
   color: white;
+
 }
+
 
 .ammoBox {
+
   font-size: 25px;
+
 }
 
+
 .ammoBox small {
+
   margin-left: 3px;
 
   font-size: 13px;
+
   color: #888;
+
 }
+
 
 /* =========================
    MISSION
 ========================= */
 
 #mission {
+
   position: absolute;
 
   top: 75px;
   left: 50%;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   display: flex;
+
   flex-direction: column;
 
   text-align: center;
 
-  z-index: 40;
+  z-index: 90;
 
-  text-shadow: 0 2px 5px black;
+  text-shadow:
+    0 2px 5px black;
 }
+
 
 #mission span {
+
   font-size: 9px;
+
   letter-spacing: 3px;
+
   color: #aaa;
+
 }
 
+
 #mission strong {
+
   margin-top: 4px;
 
   font-size: 13px;
+
   letter-spacing: 1px;
+
 }
+
 
 /* =========================
    CROSSHAIR
 ========================= */
 
 #crosshair {
+
   position: absolute;
 
   left: 50%;
@@ -281,52 +398,72 @@ body {
   width: 38px;
   height: 38px;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
-  z-index: 30;
+  z-index: 80;
+
 }
 
+
 #crosshair span {
+
   position: absolute;
 
   background: white;
 
-  box-shadow: 0 0 4px black;
+  box-shadow:
+    0 0 4px black;
+
 }
 
+
 .crossTop {
+
   width: 2px;
   height: 9px;
 
   left: 18px;
   top: 0;
+
 }
 
+
 .crossBottom {
+
   width: 2px;
   height: 9px;
 
   left: 18px;
   bottom: 0;
+
 }
 
+
 .crossLeft {
+
   width: 9px;
   height: 2px;
 
   left: 0;
   top: 18px;
+
 }
 
+
 .crossRight {
+
   width: 9px;
   height: 2px;
 
   right: 0;
   top: 18px;
+
 }
 
+
 .crossDot {
+
   position: absolute;
 
   width: 3px;
@@ -335,37 +472,83 @@ body {
   left: 50%;
   top: 50%;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
   border-radius: 50%;
 
   background: white;
+
 }
 
+
 /* =========================
-   ENEMY
+   MULTI ENEMIES
 ========================= */
 
-#enemy {
-  position: absolute;
+.combatEnemy {
 
-  left: 50%;
-  top: 38%;
+  position: absolute;
 
   width: 70px;
   height: 145px;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
-  z-index: 20;
+  z-index: 70;
 
   transition:
-    left .15s ease,
-    top .15s ease,
-    transform .12s ease;
+    left .35s ease,
+    top .35s ease,
+    transform .15s ease,
+    opacity .2s ease;
+
+  pointer-events: none;
+
 }
 
-.enemyHead {
+
+.enemyHealth {
+
+  position: absolute;
+
+  left: 50%;
+  top: -14px;
+
+  width: 70px;
+  height: 6px;
+
+  transform:
+    translateX(-50%);
+
+  background: #111;
+
+  border:
+    1px solid #000;
+
+  border-radius: 4px;
+
+  overflow: hidden;
+
+}
+
+
+.enemyHealthFill {
+
+  width: 100%;
+  height: 100%;
+
+  background: #70e000;
+
+  transition:
+    width .15s ease;
+
+}
+
+
+.combatHead {
+
   position: absolute;
 
   left: 50%;
@@ -374,17 +557,26 @@ body {
   width: 42px;
   height: 42px;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   border-radius: 50%;
 
   background:
-    radial-gradient(circle at 35% 30%, #999, #3d3d3d);
+    radial-gradient(
+      circle at 35% 30%,
+      #999,
+      #3d3d3d
+    );
 
-  border: 3px solid #161616;
+  border:
+    3px solid #161616;
+
 }
 
-.enemyBody {
+
+.combatBody {
+
   position: absolute;
 
   left: 50%;
@@ -393,24 +585,32 @@ body {
   width: 60px;
   height: 100px;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
-  border-radius: 18px 18px 8px 8px;
+  border-radius:
+    18px 18px 8px 8px;
 
   background:
     linear-gradient(
       90deg,
-      #171717 0%,
-      #4d4d4d 50%,
-      #171717 100%
+      #171717,
+      #4d4d4d,
+      #171717
     );
 
-  border: 3px solid #111;
+  border:
+    3px solid #111;
 
-  box-shadow: 0 7px 15px rgba(0,0,0,.7);
+  box-shadow:
+    0 7px 15px
+    rgba(0,0,0,.7);
+
 }
 
-.enemyWeapon {
+
+.combatWeapon {
+
   position: absolute;
 
   width: 60px;
@@ -419,18 +619,22 @@ body {
   right: -40px;
   top: 75px;
 
-  transform: rotate(-8deg);
+  transform:
+    rotate(-8deg);
 
   border-radius: 4px;
 
   background: #111;
+
 }
+
 
 /* =========================
    HIT MARKER
 ========================= */
 
 #hitMarker {
+
   position: absolute;
 
   left: 50%;
@@ -439,14 +643,18 @@ body {
   width: 40px;
   height: 40px;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
-  z-index: 60;
+  z-index: 110;
 
   opacity: 0;
+
 }
 
+
 #hitMarker span {
+
   position: absolute;
 
   width: 14px;
@@ -456,7 +664,9 @@ body {
   top: 19px;
 
   background: white;
+
 }
+
 
 #hitMarker span:nth-child(1) {
   transform: rotate(45deg);
@@ -474,11 +684,13 @@ body {
   transform: rotate(-135deg);
 }
 
+
 /* =========================
-   MUZZLE FLASH
+   MUZZLE
 ========================= */
 
 #muzzleFlash {
+
   position: absolute;
 
   left: 50%;
@@ -487,7 +699,8 @@ body {
   width: 90px;
   height: 90px;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   border-radius: 50%;
 
@@ -500,20 +713,21 @@ body {
       transparent 70%
     );
 
-  filter: blur(2px);
-
   opacity: 0;
 
-  z-index: 35;
+  z-index: 95;
 
   pointer-events: none;
+
 }
+
 
 /* =========================
    WEAPON
 ========================= */
 
 #weapon {
+
   position: absolute;
 
   left: 50%;
@@ -522,14 +736,18 @@ body {
   width: 190px;
   height: 190px;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
-  z-index: 25;
+  z-index: 85;
 
   pointer-events: none;
+
 }
 
+
 .weaponBody {
+
   position: absolute;
 
   width: 150px;
@@ -548,10 +766,14 @@ body {
       #1b1b1b
     );
 
-  border: 3px solid #0b0b0b;
+  border:
+    3px solid #0b0b0b;
+
 }
 
+
 .weaponBarrel {
+
   position: absolute;
 
   width: 100px;
@@ -562,10 +784,11 @@ body {
 
   background: #101010;
 
-  border: 2px solid #050505;
 }
 
+
 .weaponMagazine {
+
   position: absolute;
 
   width: 40px;
@@ -586,10 +809,11 @@ body {
       #111
     );
 
-  border: 3px solid #080808;
 }
 
+
 .weaponGrip {
+
   position: absolute;
 
   width: 38px;
@@ -604,14 +828,15 @@ body {
 
   background: #111;
 
-  border: 3px solid #070707;
 }
 
+
 /* =========================
-   DAMAGE EFFECT
+   DAMAGE
 ========================= */
 
 #damageOverlay {
+
   position: absolute;
 
   inset: 0;
@@ -625,41 +850,49 @@ body {
 
   opacity: 0;
 
-  z-index: 45;
+  z-index: 105;
 
   pointer-events: none;
+
 }
+
 
 /* =========================
    MESSAGE
 ========================= */
 
 #message {
+
   position: absolute;
 
   left: 50%;
   top: 28%;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
   text-align: center;
 
   font-size: 25px;
+
   font-weight: 900;
+
   letter-spacing: 2px;
 
   text-shadow:
-    0 2px 8px black,
-    0 0 15px rgba(255,255,255,.3);
+    0 2px 8px black;
 
-  z-index: 70;
+  z-index: 120;
+
 }
+
 
 /* =========================
    CONTROLS
 ========================= */
 
 #controls {
+
   position: absolute;
 
   left: 0;
@@ -668,12 +901,13 @@ body {
 
   height: 190px;
 
-  z-index: 80;
+  z-index: 130;
+
 }
 
-/* JOYSTICK */
 
 #joystick {
+
   position: absolute;
 
   left: 25px;
@@ -684,15 +918,18 @@ body {
 
   border-radius: 50%;
 
-  border: 2px solid rgba(255,255,255,.25);
+  border:
+    2px solid
+    rgba(255,255,255,.25);
 
-  background: rgba(0,0,0,.38);
+  background:
+    rgba(0,0,0,.38);
 
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,.04);
 }
 
+
 #stick {
+
   position: absolute;
 
   left: 50%;
@@ -701,21 +938,22 @@ body {
   width: 55px;
   height: 55px;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%,-50%);
 
   border-radius: 50%;
 
-  background: rgba(135,65,255,.7);
+  background:
+    rgba(135,65,255,.7);
 
-  border: 2px solid #b678ff;
+  border:
+    2px solid #b678ff;
 
-  box-shadow:
-    0 0 18px #6d2dcc;
 }
 
-/* ACTION BUTTONS */
 
 #actionButtons {
+
   position: absolute;
 
   right: 20px;
@@ -726,53 +964,62 @@ body {
   align-items: center;
 
   gap: 16px;
+
 }
+
 
 #shootBtn,
 #reloadBtn {
+
   border-radius: 50%;
 
   color: white;
 
   font-weight: 900;
 
-  background: rgba(0,0,0,.58);
+  background:
+    rgba(0,0,0,.58);
 
-  border: 2px solid rgba(255,255,255,.35);
+  border:
+    2px solid
+    rgba(255,255,255,.35);
 
-  box-shadow:
-    0 0 15px rgba(0,0,0,.6);
 }
 
+
 #shootBtn {
+
   width: 92px;
   height: 92px;
 
   border-color: #ff5555;
 
-  font-size: 14px;
-
-  box-shadow:
-    0 0 20px rgba(255,50,50,.25);
 }
 
+
 #reloadBtn {
+
   width: 62px;
   height: 62px;
 
   font-size: 28px;
+
 }
+
 
 #shootBtn:active,
 #reloadBtn:active {
+
   transform: scale(.9);
+
 }
+
 
 /* =========================
    SMALL PHONES
 ========================= */
 
-@media (max-width: 420px) {
+@media (max-width:420px) {
 
   .logo {
     letter-spacing: 6px;
@@ -802,7 +1049,4 @@ body {
     height: 52px;
   }
 
-  #weapon {
-    transform: translateX(-50%) scale(.8);
   }
-}
