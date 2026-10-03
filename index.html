@@ -18,9 +18,7 @@
 
 <body>
 
-  <!-- =========================
-       MENU
-  ========================== -->
+  <!-- MENU -->
 
   <div id="menu">
 
@@ -39,18 +37,26 @@
   </div>
 
 
-  <!-- =========================
-       GAME
-  ========================== -->
+  <!-- GAME -->
 
   <div id="game" class="hidden">
 
     <div id="damageOverlay"></div>
 
+    <!-- WORLD -->
 
-    <!-- =========================
-         HUD
-    ========================== -->
+    <div id="camera">
+
+      <div id="cameraWorld">
+
+        <div id="battlefieldView"></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- HUD -->
 
     <div id="hud">
 
@@ -68,11 +74,8 @@
 
 
       <div class="scoreBox">
-
         SCORE
-
         <span id="score">0</span>
-
       </div>
 
 
@@ -89,9 +92,7 @@
     </div>
 
 
-    <!-- =========================
-         WEAPON INFO
-    ========================== -->
+    <!-- WEAPON INFO -->
 
     <div id="weaponInfo">
 
@@ -104,24 +105,18 @@
     </div>
 
 
-    <!-- =========================
-         ADS STATUS
-    ========================== -->
+    <!-- ADS -->
 
     <div id="adsStatus">
       HIP FIRE
     </div>
 
 
-    <!-- =========================
-         MISSION
-    ========================== -->
+    <!-- MISSION -->
 
     <div id="mission">
 
-      <span>
-        MISSION
-      </span>
+      <span>MISSION</span>
 
       <strong>
         ELIMINATE HOSTILES
@@ -130,18 +125,24 @@
     </div>
 
 
-    <!-- =========================
-         CROSSHAIR
-    ========================== -->
+    <!-- CAMERA DIRECTION -->
+
+    <div id="direction">
+
+      <span id="directionText">
+        NORTH
+      </span>
+
+    </div>
+
+
+    <!-- CROSSHAIR -->
 
     <div id="crosshair">
 
       <span class="crossTop"></span>
-
       <span class="crossBottom"></span>
-
       <span class="crossLeft"></span>
-
       <span class="crossRight"></span>
 
       <div class="crossDot"></div>
@@ -149,9 +150,7 @@
     </div>
 
 
-    <!-- =========================
-         HIT MARKER
-    ========================== -->
+    <!-- HIT MARKER -->
 
     <div id="hitMarker">
 
@@ -163,40 +162,29 @@
     </div>
 
 
-    <!-- =========================
-         MUZZLE
-    ========================== -->
+    <!-- MUZZLE -->
 
     <div id="muzzleFlash"></div>
 
 
-    <!-- =========================
-         WEAPON
-    ========================== -->
+    <!-- WEAPON -->
 
     <div id="weapon">
 
       <div class="weaponBody"></div>
-
       <div class="weaponMagazine"></div>
-
       <div class="weaponBarrel"></div>
-
       <div class="weaponGrip"></div>
 
     </div>
 
 
-    <!-- =========================
-         MESSAGE
-    ========================== -->
+    <!-- MESSAGE -->
 
     <div id="message"></div>
 
 
-    <!-- =========================
-         WEAPON SELECTOR
-    ========================== -->
+    <!-- WEAPONS -->
 
     <div id="weaponSelector">
 
@@ -224,13 +212,20 @@
     </div>
 
 
-    <!-- =========================
-         CONTROLS
-    ========================== -->
+    <!-- LOOK AREA -->
+
+    <div id="lookArea">
+
+      <div id="lookHint">
+        DRAG TO LOOK
+      </div>
+
+    </div>
+
+
+    <!-- CONTROLS -->
 
     <div id="controls">
-
-      <!-- JOYSTICK -->
 
       <div id="joystick">
 
@@ -238,8 +233,6 @@
 
       </div>
 
-
-      <!-- ACTION BUTTONS -->
 
       <div id="actionButtons">
 
@@ -250,14 +243,12 @@
           ↻
         </button>
 
-
         <button
           id="adsBtn"
           type="button"
         >
           ADS
         </button>
-
 
         <button
           id="shootBtn"
@@ -273,16 +264,10 @@
   </div>
 
 
-  <!-- =========================
-       SCRIPTS
-  ========================== -->
-
   <script src="game.js"></script>
-
   <script src="map.js"></script>
-
   <script src="enemies.js"></script>
 
 </body>
 
-</html>
+  </html>
