@@ -6,6 +6,7 @@ const shootBtn = document.getElementById("shootBtn");
 const reloadBtn = document.getElementById("reloadBtn");
 
 const enemy = document.getElementById("enemy");
+
 const healthText = document.getElementById("health");
 const armorText = document.getElementById("armor");
 const scoreText = document.getElementById("score");
@@ -28,14 +29,19 @@ let playing = false;
 let reloading = false;
 
 let joystickActive = false;
+
 let joystickX = 0;
 let joystickY = 0;
+
+let playerX = 50;
+let playerY = 50;
 
 let enemyX = 50;
 let enemyY = 38;
 
-let enemyMoveTimer = null;
-let enemyAttackTimer = null;
+let enemyMoveTimer;
+let enemyAttackTimer;
+let gameLoop;
 
 
 /* =========================
@@ -54,6 +60,9 @@ function startGame() {
   score = 0;
   ammo = 30;
 
+  playerX = 50;
+  playerY = 50;
+
   playing = true;
   reloading = false;
 
@@ -64,6 +73,8 @@ function startGame() {
   showMessage("MISSION START");
 
   startEnemySystems();
+
+  startGameLoop();
 }
 
 
@@ -82,6 +93,74 @@ function updateHUD() {
 
 
 /* =========================
+   GAME LOOP
+========================= */
+
+function startGameLoop() {
+
+  cancelAnimationFrame(gameLoop);
+
+  function loop() {
+
+    if (!playing) return;
+
+    movePlayer();
+
+    updateWorld();
+
+    gameLoop =
+      requestAnimationFrame(loop);
+  }
+
+  loop();
+}
+
+
+/* =========================
+   PLAYER MOVEMENT
+========================= */
+
+function movePlayer() {
+
+  if (!joystickActive) return;
+
+  const speed = 0.10;
+
+  playerX += joystickX * speed;
+  playerY += joystickY * speed;
+
+  playerX =
+    Math.max(5, Math.min(95, playerX));
+
+  playerY =
+    Math.max(5, Math.min(95, playerY));
+}
+
+
+/* =========================
+   WORLD CAMERA EFFECT
+========================= */
+
+function updateWorld() {
+
+  const battlefield =
+    document.getElementById("battlefield");
+
+  if (!battlefield) return;
+
+  const cameraX =
+    (playerX - 50) * -2;
+
+  const cameraY =
+    (playerY - 50) * -1.5;
+
+  battlefield.style.transform =
+    `translate(${cameraX}px, ${cameraY}px)`;
+
+}
+
+
+/* =========================
    MESSAGE
 ========================= */
 
@@ -95,13 +174,12 @@ function showMessage(text) {
       message.textContent = "";
     }
 
-  }, 1100);
-
+  }, 1000);
 }
 
 
 /* =========================
-   SHOOT
+   SHOOTING
 ========================= */
 
 function shoot(event) {
@@ -126,7 +204,6 @@ function shoot(event) {
   muzzle();
 
   checkHit();
-
 }
 
 
@@ -139,33 +216,42 @@ function muzzle() {
   muzzleFlash.style.opacity = "1";
 
   setTimeout(() => {
+
     muzzleFlash.style.opacity = "0";
+
   }, 70);
 
 }
 
 
 /* =========================
-   CHECK HIT
+   HIT CHECK
 ========================= */
 
 function checkHit() {
 
-  const enemyRect = enemy.getBoundingClientRect();
+  const enemyRect =
+    enemy.getBoundingClientRect();
 
-  const crosshairX = window.innerWidth / 2;
-  const crosshairY = window.innerHeight / 2;
+  const centerX =
+    window.innerWidth / 2;
+
+  const centerY =
+    window.innerHeight / 2;
 
   const enemyCenterX =
-    enemyRect.left + enemyRect.width / 2;
+    enemyRect.left +
+    enemyRect.width / 2;
 
   const enemyCenterY =
-    enemyRect.top + enemyRect.height / 2;
+    enemyRect.top +
+    enemyRect.height / 2;
 
-  const distance = Math.sqrt(
-    Math.pow(crosshairX - enemyCenterX, 2) +
-    Math.pow(crosshairY - enemyCenterY, 2)
-  );
+  const distance =
+    Math.sqrt(
+      Math.pow(centerX - enemyCenterX, 2) +
+      Math.pow(centerY - enemyCenterY, 2)
+    );
 
 
   if (distance < 90) {
@@ -177,12 +263,11 @@ function checkHit() {
     showMessage("MISS");
 
   }
-
 }
 
 
 /* =========================
-   HIT ENEMY
+   ENEMY HIT
 ========================= */
 
 function hitEnemy() {
@@ -196,7 +281,8 @@ function hitEnemy() {
   showMessage("+100 ELIMINATION");
 
   enemy.style.transform =
-    "translate(-50%, -50%) scale(1.35)";
+    "translate(-50%, -50%) scale(1.4)";
+
 
   setTimeout(() => {
 
@@ -205,7 +291,6 @@ function hitEnemy() {
     }
 
   }, 180);
-
 }
 
 
@@ -222,12 +307,11 @@ function showHitMarker() {
     hitMarker.style.opacity = "0";
 
   }, 160);
-
 }
 
 
 /* =========================
-   SPAWN ENEMY
+   ENEMY SPAWN
 ========================= */
 
 function spawnEnemy() {
@@ -245,21 +329,28 @@ function spawnEnemy() {
 
   ];
 
-
   const position =
-    positions[Math.floor(Math.random() * positions.length)];
+    positions[
+      Math.floor(
+        Math.random() *
+        positions.length
+      )
+    ];
 
 
   enemyX = position[0];
   enemyY = position[1];
 
 
-  enemy.style.left = enemyX + "%";
-  enemy.style.top = enemyY + "%";
+  enemy.style.left =
+    enemyX + "%";
+
+  enemy.style.top =
+    enemyY + "%";
+
 
   enemy.style.transform =
     "translate(-50%, -50%) scale(1)";
-
 }
 
 
@@ -271,27 +362,31 @@ function moveEnemy() {
 
   if (!playing) return;
 
-  const moveX =
-    (Math.random() * 20) - 10;
+  enemyX +=
+    Math.random() * 12 - 6;
 
-  const moveY =
-    (Math.random() * 12) - 6;
-
-
-  enemyX += moveX;
-  enemyY += moveY;
+  enemyY +=
+    Math.random() * 8 - 4;
 
 
   enemyX =
-    Math.max(12, Math.min(88, enemyX));
+    Math.max(
+      10,
+      Math.min(90, enemyX)
+    );
 
   enemyY =
-    Math.max(25, Math.min(60, enemyY));
+    Math.max(
+      25,
+      Math.min(65, enemyY)
+    );
 
 
-  enemy.style.left = enemyX + "%";
-  enemy.style.top = enemyY + "%";
+  enemy.style.left =
+    enemyX + "%";
 
+  enemy.style.top =
+    enemyY + "%";
 }
 
 
@@ -304,7 +399,9 @@ function enemyAttack() {
   if (!playing) return;
 
   const damage =
-    Math.floor(Math.random() * 7) + 4;
+    Math.floor(
+      Math.random() * 7
+    ) + 4;
 
 
   if (armor > 0) {
@@ -314,21 +411,18 @@ function enemyAttack() {
     if (armor < 0) {
 
       health += armor;
-      armor = 0;
 
+      armor = 0;
     }
 
   } else {
 
     health -= damage;
-
   }
 
 
-  if (health < 0) {
-    health = 0;
-  }
-
+  health =
+    Math.max(0, health);
 
   updateHUD();
 
@@ -338,9 +432,7 @@ function enemyAttack() {
   if (health <= 0) {
 
     gameOver();
-
   }
-
 }
 
 
@@ -357,7 +449,6 @@ function showDamageEffect() {
     damageOverlay.style.opacity = "0";
 
   }, 180);
-
 }
 
 
@@ -372,12 +463,17 @@ function startEnemySystems() {
 
 
   enemyMoveTimer =
-    setInterval(moveEnemy, 1600);
+    setInterval(
+      moveEnemy,
+      1600
+    );
 
 
   enemyAttackTimer =
-    setInterval(enemyAttack, 3000);
-
+    setInterval(
+      enemyAttack,
+      3000
+    );
 }
 
 
@@ -386,6 +482,7 @@ function stopEnemySystems() {
   clearInterval(enemyMoveTimer);
   clearInterval(enemyAttackTimer);
 
+  cancelAnimationFrame(gameLoop);
 }
 
 
@@ -418,6 +515,8 @@ function reload(event) {
 
   setTimeout(() => {
 
+    if (!playing) return;
+
     ammo = 30;
 
     reloading = false;
@@ -427,7 +526,6 @@ function reload(event) {
     showMessage("READY");
 
   }, 1200);
-
 }
 
 
@@ -461,7 +559,6 @@ function startJoystick(event) {
   joystickActive = true;
 
   moveJoystick(event);
-
 }
 
 
@@ -471,26 +568,24 @@ function moveJoystick(event) {
 
   event.preventDefault();
 
-
   const touch =
     event.touches[0];
-
 
   const rect =
     joystick.getBoundingClientRect();
 
 
   const centerX =
-    rect.left + rect.width / 2;
-
+    rect.left +
+    rect.width / 2;
 
   const centerY =
-    rect.top + rect.height / 2;
+    rect.top +
+    rect.height / 2;
 
 
   let dx =
     touch.clientX - centerX;
-
 
   let dy =
     touch.clientY - centerY;
@@ -498,25 +593,27 @@ function moveJoystick(event) {
 
   const maxDistance = 40;
 
-
   const distance =
-    Math.sqrt(dx * dx + dy * dy);
+    Math.sqrt(
+      dx * dx +
+      dy * dy
+    );
 
 
   if (distance > maxDistance) {
 
     dx =
-      (dx / distance) * maxDistance;
+      (dx / distance) *
+      maxDistance;
 
     dy =
-      (dy / distance) * maxDistance;
-
+      (dy / distance) *
+      maxDistance;
   }
 
 
   joystickX =
     dx / maxDistance;
-
 
   joystickY =
     dy / maxDistance;
@@ -527,21 +624,6 @@ function moveJoystick(event) {
       calc(-50% + ${dx}px),
       calc(-50% + ${dy}px)
     )`;
-
-
-  /* Small camera-style movement */
-
-  const cameraX =
-    joystickX * 3;
-
-
-  const cameraY =
-    joystickY * 2;
-
-
-  game.style.backgroundPosition =
-    `${cameraX}px ${cameraY}px`;
-
 }
 
 
@@ -559,11 +641,6 @@ function stopJoystick(event) {
 
   stick.style.transform =
     "translate(-50%, -50%)";
-
-
-  game.style.backgroundPosition =
-    "center";
-
 }
 
 
@@ -621,5 +698,4 @@ function gameOver() {
     message.textContent = "";
 
   }, 1800);
-
-}
+         }
