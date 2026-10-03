@@ -2,189 +2,682 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  touch-action: none;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
+html,
 body {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  background: #050509;
+  background: #050505;
+  font-family: Arial, Helvetica, sans-serif;
   color: white;
-  font-family: Arial, sans-serif;
 }
 
-/* MAIN MENU */
+/* =========================
+   MENU
+========================= */
+
 #menu {
   width: 100%;
   height: 100vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(circle at center, #251044 0%, #08050d 45%, #020204 100%);
+
   text-align: center;
+
+  background:
+    radial-gradient(circle at center, #30105a 0%, #10071b 42%, #020204 100%);
 }
 
-#menu h1 {
-  font-size: 58px;
-  letter-spacing: 8px;
+.logo {
+  font-size: clamp(48px, 14vw, 90px);
   font-weight: 900;
-  text-shadow: 0 0 20px #8d3cff;
+  letter-spacing: 10px;
+
+  text-shadow:
+    0 0 10px #8d3cff,
+    0 0 35px #702cff;
 }
 
-#menu h2 {
-  font-size: 24px;
-  letter-spacing: 6px;
-  margin-top: 5px;
+.subtitle {
+  margin-top: -5px;
+
+  font-size: clamp(24px, 7vw, 40px);
+  font-weight: 800;
+  letter-spacing: 12px;
 }
 
-#menu p {
-  margin-top: 12px;
+.gameType {
+  margin-top: 15px;
+
+  font-size: 13px;
+  letter-spacing: 5px;
   color: #aaa;
-  letter-spacing: 4px;
 }
 
 #playBtn {
   margin-top: 45px;
-  width: 220px;
+
+  width: 230px;
   height: 65px;
-  border: 2px solid #9b4dff;
-  border-radius: 10px;
-  background: #160b25;
+
+  border: 2px solid #9d50ff;
+  border-radius: 8px;
+
+  background: rgba(20, 5, 35, .85);
+
   color: white;
-  font-size: 22px;
-  font-weight: bold;
+
+  font-size: 20px;
+  font-weight: 900;
   letter-spacing: 4px;
-  box-shadow: 0 0 25px #702cff;
+
+  box-shadow:
+    0 0 15px #702cff,
+    inset 0 0 20px rgba(130, 50, 255, .15);
 }
 
 #playBtn:active {
-  transform: scale(0.94);
+  transform: scale(.94);
 }
 
-/* GAME */
+/* =========================
+   GAME
+========================= */
+
 #game {
   position: relative;
+
   width: 100%;
   height: 100vh;
+
   overflow: hidden;
 
   background:
-    linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.35)),
-    radial-gradient(circle at center, #424242 0%, #1d1d1d 55%, #090909 100%);
+    linear-gradient(
+      rgba(0, 0, 0, .15),
+      rgba(0, 0, 0, .45)
+    ),
+    linear-gradient(
+      to bottom,
+      #394047 0%,
+      #25292c 48%,
+      #151515 49%,
+      #080808 100%
+    );
 }
 
 .hidden {
   display: none !important;
 }
 
-/* HUD */
-#hud {
+/* Ground */
+
+#game::after {
+  content: "";
+
   position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
 
-  display: flex;
-  justify-content: space-between;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-  padding: 12px 16px;
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 10px;
+  height: 52%;
 
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(5px);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.025) 0,
+      rgba(255,255,255,.025) 2px,
+      transparent 2px,
+      transparent 90px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.025) 0,
+      rgba(255,255,255,.025) 2px,
+      transparent 2px,
+      transparent 90px
+    );
 
-  font-size: 14px;
-  font-weight: bold;
+  transform: perspective(300px) rotateX(35deg);
+  transform-origin: bottom;
 
-  z-index: 20;
+  pointer-events: none;
 }
 
-/* CROSSHAIR */
+/* =========================
+   HUD
+========================= */
+
+#hud {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+  right: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  z-index: 50;
+}
+
+.hudLeft {
+  display: flex;
+  gap: 8px;
+}
+
+.healthBox,
+.armorBox,
+.scoreBox,
+.ammoBox {
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 6px;
+
+  background: rgba(0,0,0,.58);
+
+  backdrop-filter: blur(5px);
+
+  font-weight: 800;
+}
+
+.healthBox {
+  color: #ff6868;
+}
+
+.armorBox {
+  color: #73bfff;
+}
+
+.scoreBox {
+  flex-direction: column;
+
+  min-width: 90px;
+
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #aaa;
+}
+
+.scoreBox span {
+  margin-top: 2px;
+
+  font-size: 17px;
+  color: white;
+}
+
+.ammoBox {
+  font-size: 25px;
+}
+
+.ammoBox small {
+  margin-left: 3px;
+
+  font-size: 13px;
+  color: #888;
+}
+
+/* =========================
+   MISSION
+========================= */
+
+#mission {
+  position: absolute;
+
+  top: 75px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+
+  z-index: 40;
+
+  text-shadow: 0 2px 5px black;
+}
+
+#mission span {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #aaa;
+}
+
+#mission strong {
+  margin-top: 4px;
+
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* =========================
+   CROSSHAIR
+========================= */
+
 #crosshair {
   position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 38px;
+  height: 38px;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 30;
+}
+
+#crosshair span {
+  position: absolute;
+
+  background: white;
+
+  box-shadow: 0 0 4px black;
+}
+
+.crossTop {
+  width: 2px;
+  height: 9px;
+
+  left: 18px;
+  top: 0;
+}
+
+.crossBottom {
+  width: 2px;
+  height: 9px;
+
+  left: 18px;
+  bottom: 0;
+}
+
+.crossLeft {
+  width: 9px;
+  height: 2px;
+
+  left: 0;
+  top: 18px;
+}
+
+.crossRight {
+  width: 9px;
+  height: 2px;
+
+  right: 0;
+  top: 18px;
+}
+
+.crossDot {
+  position: absolute;
+
+  width: 3px;
+  height: 3px;
+
   left: 50%;
   top: 50%;
 
   transform: translate(-50%, -50%);
 
-  font-size: 32px;
-  font-weight: bold;
+  border-radius: 50%;
 
-  text-shadow: 0 0 8px black;
-
-  z-index: 10;
+  background: white;
 }
 
-/* ENEMY */
+/* =========================
+   ENEMY
+========================= */
+
 #enemy {
   position: absolute;
+
   left: 50%;
-  top: 40%;
+  top: 38%;
 
   width: 70px;
-  height: 120px;
+  height: 145px;
 
   transform: translate(-50%, -50%);
 
-  z-index: 5;
+  z-index: 20;
+
+  transition:
+    left .15s ease,
+    top .15s ease,
+    transform .12s ease;
 }
 
-.enemyBody {
-  width: 100%;
-  height: 100%;
-
-  border-radius: 35px 35px 12px 12px;
-
-  background:
-    linear-gradient(#8c8c8c 0 25%, #242424 25% 100%);
-
-  border: 3px solid #111;
-
-  box-shadow:
-    0 0 15px rgba(0,0,0,.7);
-}
-
-.enemyBody::before {
-  content: "";
+.enemyHead {
   position: absolute;
 
-  width: 35px;
-  height: 35px;
-
   left: 50%;
-  top: -38px;
+  top: 0;
+
+  width: 42px;
+  height: 42px;
 
   transform: translateX(-50%);
 
   border-radius: 50%;
 
-  background: #777;
-  border: 3px solid #111;
+  background:
+    radial-gradient(circle at 35% 30%, #999, #3d3d3d);
+
+  border: 3px solid #161616;
 }
 
-/* CONTROLS */
+.enemyBody {
+  position: absolute;
+
+  left: 50%;
+  top: 38px;
+
+  width: 60px;
+  height: 100px;
+
+  transform: translateX(-50%);
+
+  border-radius: 18px 18px 8px 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #171717 0%,
+      #4d4d4d 50%,
+      #171717 100%
+    );
+
+  border: 3px solid #111;
+
+  box-shadow: 0 7px 15px rgba(0,0,0,.7);
+}
+
+.enemyWeapon {
+  position: absolute;
+
+  width: 60px;
+  height: 9px;
+
+  right: -40px;
+  top: 75px;
+
+  transform: rotate(-8deg);
+
+  border-radius: 4px;
+
+  background: #111;
+}
+
+/* =========================
+   HIT MARKER
+========================= */
+
+#hitMarker {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 60;
+
+  opacity: 0;
+}
+
+#hitMarker span {
+  position: absolute;
+
+  width: 14px;
+  height: 2px;
+
+  left: 13px;
+  top: 19px;
+
+  background: white;
+}
+
+#hitMarker span:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+#hitMarker span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+#hitMarker span:nth-child(3) {
+  transform: rotate(135deg);
+}
+
+#hitMarker span:nth-child(4) {
+  transform: rotate(-135deg);
+}
+
+/* =========================
+   MUZZLE FLASH
+========================= */
+
+#muzzleFlash {
+  position: absolute;
+
+  left: 50%;
+  bottom: 24%;
+
+  width: 90px;
+  height: 90px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      white 0%,
+      #ffd45a 15%,
+      #ff6a00 35%,
+      transparent 70%
+    );
+
+  filter: blur(2px);
+
+  opacity: 0;
+
+  z-index: 35;
+
+  pointer-events: none;
+}
+
+/* =========================
+   WEAPON
+========================= */
+
+#weapon {
+  position: absolute;
+
+  left: 50%;
+  bottom: -45px;
+
+  width: 190px;
+  height: 190px;
+
+  transform: translateX(-50%);
+
+  z-index: 25;
+
+  pointer-events: none;
+}
+
+.weaponBody {
+  position: absolute;
+
+  width: 150px;
+  height: 45px;
+
+  left: 20px;
+  top: 35px;
+
+  transform: rotate(-5deg);
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      #555,
+      #1b1b1b
+    );
+
+  border: 3px solid #0b0b0b;
+}
+
+.weaponBarrel {
+  position: absolute;
+
+  width: 100px;
+  height: 15px;
+
+  left: 115px;
+  top: 27px;
+
+  background: #101010;
+
+  border: 2px solid #050505;
+}
+
+.weaponMagazine {
+  position: absolute;
+
+  width: 40px;
+  height: 85px;
+
+  left: 65px;
+  top: 65px;
+
+  transform: rotate(10deg);
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #111,
+      #4a4a4a,
+      #111
+    );
+
+  border: 3px solid #080808;
+}
+
+.weaponGrip {
+  position: absolute;
+
+  width: 38px;
+  height: 75px;
+
+  left: 115px;
+  top: 60px;
+
+  transform: rotate(10deg);
+
+  border-radius: 5px;
+
+  background: #111;
+
+  border: 3px solid #070707;
+}
+
+/* =========================
+   DAMAGE EFFECT
+========================= */
+
+#damageOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle,
+      transparent 35%,
+      rgba(255,0,0,.65) 100%
+    );
+
+  opacity: 0;
+
+  z-index: 45;
+
+  pointer-events: none;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#message {
+  position: absolute;
+
+  left: 50%;
+  top: 28%;
+
+  transform: translate(-50%, -50%);
+
+  text-align: center;
+
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 2px 8px black,
+    0 0 15px rgba(255,255,255,.3);
+
+  z-index: 70;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
 #controls {
   position: absolute;
+
   left: 0;
   right: 0;
-  bottom: 20px;
+  bottom: 15px;
 
-  height: 180px;
+  height: 190px;
 
-  z-index: 30;
+  z-index: 80;
 }
 
 /* JOYSTICK */
+
 #joystick {
   position: absolute;
 
   left: 25px;
-  bottom: 15px;
+  bottom: 10px;
 
   width: 125px;
   height: 125px;
@@ -193,39 +686,46 @@ body {
 
   border: 2px solid rgba(255,255,255,.25);
 
-  background: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.38);
+
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,.04);
 }
 
 #stick {
   position: absolute;
 
-  width: 55px;
-  height: 55px;
-
   left: 50%;
   top: 50%;
+
+  width: 55px;
+  height: 55px;
 
   transform: translate(-50%, -50%);
 
   border-radius: 50%;
 
-  background: rgba(150,70,255,.65);
+  background: rgba(135,65,255,.7);
 
-  border: 2px solid #b875ff;
+  border: 2px solid #b678ff;
 
-  box-shadow: 0 0 15px #7b35d6;
+  box-shadow:
+    0 0 18px #6d2dcc;
 }
 
-/* BUTTONS */
+/* ACTION BUTTONS */
+
 #actionButtons {
   position: absolute;
 
-  right: 25px;
-  bottom: 5px;
+  right: 20px;
+  bottom: 10px;
 
   display: flex;
+
   align-items: center;
-  gap: 18px;
+
+  gap: 16px;
 }
 
 #shootBtn,
@@ -233,27 +733,32 @@ body {
   border-radius: 50%;
 
   color: white;
-  font-weight: bold;
 
-  border: 2px solid rgba(255,255,255,.4);
+  font-weight: 900;
 
-  background: rgba(0,0,0,.55);
+  background: rgba(0,0,0,.58);
 
-  box-shadow: 0 0 15px rgba(0,0,0,.6);
+  border: 2px solid rgba(255,255,255,.35);
+
+  box-shadow:
+    0 0 15px rgba(0,0,0,.6);
 }
 
 #shootBtn {
-  width: 90px;
-  height: 90px;
+  width: 92px;
+  height: 92px;
 
   border-color: #ff5555;
 
-  font-size: 15px;
+  font-size: 14px;
+
+  box-shadow:
+    0 0 20px rgba(255,50,50,.25);
 }
 
 #reloadBtn {
-  width: 60px;
-  height: 60px;
+  width: 62px;
+  height: 62px;
 
   font-size: 28px;
 }
@@ -263,34 +768,18 @@ body {
   transform: scale(.9);
 }
 
-/* MESSAGE */
-#message {
-  position: absolute;
+/* =========================
+   SMALL PHONES
+========================= */
 
-  left: 50%;
-  top: 30%;
+@media (max-width: 420px) {
 
-  transform: translate(-50%, -50%);
-
-  font-size: 28px;
-  font-weight: bold;
-
-  text-align: center;
-
-  text-shadow: 0 0 10px black;
-
-  z-index: 40;
-}
-
-/* SMALL PHONES */
-@media (max-width: 400px) {
-
-  #menu h1 {
-    font-size: 45px;
+  .logo {
+    letter-spacing: 6px;
   }
 
-  #menu h2 {
-    font-size: 19px;
+  .subtitle {
+    letter-spacing: 7px;
   }
 
   #joystick {
@@ -312,4 +801,8 @@ body {
     width: 52px;
     height: 52px;
   }
+
+  #weapon {
+    transform: translateX(-50%) scale(.8);
   }
+}
