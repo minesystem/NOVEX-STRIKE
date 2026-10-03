@@ -28,15 +28,21 @@ body {
 }
 
 
+/* =========================
+   MENU
+========================= */
+
 #menu {
 
   width: 100%;
   height: 100vh;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
+
   justify-content: center;
 
   text-align: center;
@@ -125,6 +131,10 @@ body {
 
 }
 
+
+/* =========================
+   GAME
+========================= */
 
 #game {
 
@@ -218,16 +228,12 @@ body {
 
 
 .healthBox {
-
   color: #ff6868;
-
 }
 
 
 .armorBox {
-
   color: #73bfff;
-
 }
 
 
@@ -315,6 +321,32 @@ body {
 
 
 /* =========================
+   ADS STATUS
+========================= */
+
+#adsStatus {
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 150px;
+
+  transform:
+    translateX(-50%);
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+  color: #aaa;
+
+  opacity: .8;
+
+  z-index: 100;
+}
+
+
+/* =========================
    MISSION
 ========================= */
 
@@ -335,7 +367,6 @@ body {
   text-align: center;
 
   z-index: 90;
-
 }
 
 
@@ -377,6 +408,11 @@ body {
     translate(-50%,-50%);
 
   z-index: 80;
+
+  transition:
+    width .18s ease,
+    height .18s ease,
+    transform .08s ease;
 }
 
 
@@ -388,6 +424,9 @@ body {
 
   box-shadow:
     0 0 4px black;
+
+  transition:
+    all .15s ease;
 }
 
 
@@ -447,6 +486,153 @@ body {
   border-radius: 50%;
 
   background: white;
+}
+
+
+/* =========================
+   ADS CROSSHAIR
+========================= */
+
+#game.aiming #crosshair {
+
+  width: 24px;
+  height: 24px;
+
+}
+
+
+#game.aiming .crossTop {
+
+  left: 11px;
+
+  height: 5px;
+
+}
+
+
+#game.aiming .crossBottom {
+
+  left: 11px;
+
+  height: 5px;
+
+}
+
+
+#game.aiming .crossLeft {
+
+  top: 11px;
+
+  width: 5px;
+
+}
+
+
+#game.aiming .crossRight {
+
+  top: 11px;
+
+  width: 5px;
+
+}
+
+
+/* =========================
+   ADS WEAPON
+========================= */
+
+#game.aiming #weapon {
+
+  bottom: -5px;
+
+  transform:
+    translateX(-50%)
+    scale(1.18);
+
+}
+
+
+/* =========================
+   WEAPON RECOIL
+========================= */
+
+#weapon.recoil {
+
+  animation:
+    weaponRecoil .10s ease;
+
+}
+
+
+@keyframes weaponRecoil {
+
+  0% {
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      rotate(0deg);
+
+  }
+
+  45% {
+
+    transform:
+      translateX(-50%)
+      translateY(18px)
+      rotate(-2deg);
+
+  }
+
+  100% {
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      rotate(0deg);
+
+  }
+
+}
+
+
+/* =========================
+   CROSSHAIR RECOIL
+========================= */
+
+#crosshair.recoil {
+
+  animation:
+    crossRecoil .12s ease;
+
+}
+
+
+@keyframes crossRecoil {
+
+  0% {
+
+    transform:
+      translate(-50%,-50%);
+
+  }
+
+  40% {
+
+    transform:
+      translate(-50%,-65%)
+      rotate(-4deg);
+
+  }
+
+  100% {
+
+    transform:
+      translate(-50%,-50%)
+      rotate(0deg);
+
+  }
+
 }
 
 
@@ -691,6 +877,12 @@ body {
     translateX(-50%);
 
   z-index: 85;
+
+  pointer-events: none;
+
+  transition:
+    bottom .2s ease,
+    transform .2s ease;
 }
 
 
@@ -874,9 +1066,6 @@ body {
 
   border-color: #a05cff;
 
-  box-shadow:
-    0 0 12px
-    rgba(140,70,255,.45);
 }
 
 
@@ -953,25 +1142,25 @@ body {
 
   align-items: center;
 
-  gap: 16px;
+  gap: 12px;
 }
 
 
 #shootBtn,
-#reloadBtn {
-
-  border-radius: 50%;
+#reloadBtn,
+#adsBtn {
 
   color: white;
 
   font-weight: 900;
 
   background:
-    rgba(0,0,0,.58);
+    rgba(0,0,0,.65);
 
   border:
     2px solid
     rgba(255,255,255,.35);
+
 }
 
 
@@ -979,6 +1168,8 @@ body {
 
   width: 92px;
   height: 92px;
+
+  border-radius: 50%;
 
   border-color: #ff5555;
 }
@@ -989,14 +1180,40 @@ body {
   width: 62px;
   height: 62px;
 
+  border-radius: 50%;
+
   font-size: 28px;
 }
 
 
+#adsBtn {
+
+  width: 62px;
+  height: 62px;
+
+  border-radius: 50%;
+
+  font-size: 11px;
+
+}
+
+
+#adsBtn.active {
+
+  border-color: #a05cff;
+
+  box-shadow:
+    0 0 15px
+    rgba(140,70,255,.5);
+}
+
+
 #shootBtn:active,
-#reloadBtn:active {
+#reloadBtn:active,
+#adsBtn:active {
 
   transform: scale(.9);
+
 }
 
 
@@ -1025,7 +1242,8 @@ body {
     height: 78px;
   }
 
-  #reloadBtn {
+  #reloadBtn,
+  #adsBtn {
     width: 52px;
     height: 52px;
   }
