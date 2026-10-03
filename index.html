@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>NØV3X MOBILE OPS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div id="menu">
+    <h1>NØV3X</h1>
+    <h2>MOBILE OPS</h2>
+    <p>TACTICAL FPS</p>
+    <button id="playBtn">PLAY</button>
+  </div>
+
+  <div id="game" class="hidden">
+
+    <div id="hud">
+      <div>❤️ <span id="health">100</span></div>
+      <div>🎯 SCORE: <span id="score">0</span></div>
+      <div>🔫 <span id="ammo">30</span>/30</div>
+    </div>
+
+    <div id="crosshair">+</div>
+
+    <div id="enemy">
+      <div class="enemyBody"></div>
+    </div>
+
+    <div id="controls">
+
+      <div id="joystick">
+        <div id="stick"></div>
+      </div>
+
+      <div id="actionButtons">
+        <button id="reloadBtn">↻</button>
+        <button id="shootBtn">FIRE</button>
+      </div>
+
+    </div>
+
+    <div id="message"></div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
