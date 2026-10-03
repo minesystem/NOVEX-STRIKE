@@ -1,6 +1,6 @@
 /* =========================
    NØV3X STRIKE
-   V7 ADS + RECOIL
+   V8 CAMERA LOOK
 ========================= */
 
 const playBtn =
@@ -20,6 +20,18 @@ const reloadBtn =
 
 const adsBtn =
   document.getElementById("adsBtn");
+
+const lookArea =
+  document.getElementById("lookArea");
+
+const lookHint =
+  document.getElementById("lookHint");
+
+const cameraWorld =
+  document.getElementById("cameraWorld");
+
+const directionText =
+  document.getElementById("directionText");
 
 const healthText =
   document.getElementById("health");
@@ -137,6 +149,23 @@ let playerY = 50;
 
 
 /* =========================
+   CAMERA
+========================= */
+
+let cameraYaw = 0;
+
+let cameraPitch = 0;
+
+let lookActive = false;
+
+let lookTouchId = null;
+
+let lastLookX = 0;
+
+let lastLookY = 0;
+
+
+/* =========================
    GAME
 ========================= */
 
@@ -157,14 +186,9 @@ playBtn.addEventListener(
 
 function startGame() {
 
-  menu.classList.add(
-    "hidden"
-  );
+  menu.classList.add("hidden");
 
-  game.classList.remove(
-    "hidden"
-  );
-
+  game.classList.remove("hidden");
 
   health = 100;
 
@@ -172,27 +196,27 @@ function startGame() {
 
   score = 0;
 
-
   aiming = false;
 
-  game.classList.remove(
-    "aiming"
-  );
+  cameraYaw = 0;
 
-  adsBtn.classList.remove(
-    "active"
-  );
-
-
-  currentWeapon = 0;
-
-  setWeapon(0);
-
+  cameraPitch = 0;
 
   playerX = 50;
 
   playerY = 50;
 
+  game.classList.remove("aiming");
+
+  adsBtn.classList.remove("active");
+
+  adsBtn.textContent = "ADS";
+
+  adsStatus.textContent = "HIP FIRE";
+
+  currentWeapon = 0;
+
+  setWeapon(0);
 
   playing = true;
 
@@ -200,9 +224,9 @@ function startGame() {
 
   canShoot = true;
 
-
   updateHUD();
 
+  updateCamera();
 
   if (
     typeof startMultipleEnemies ===
@@ -213,19 +237,11 @@ function startGame() {
 
   }
 
-
-  showMessage(
-    "MISSION START"
-  );
-
+  showMessage("MISSION START");
 
   startGameLoop();
 
-
-  clearInterval(
-    enemyAttackTimer
-  );
-
+  clearInterval(enemyAttackTimer);
 
   enemyAttackTimer =
     setInterval(() => {
@@ -255,57 +271,44 @@ function setWeapon(index) {
     index < 0 ||
     index >= weapons.length
   ) {
+
     return;
+
   }
 
-
   currentWeapon = index;
-
 
   const selectedWeapon =
     weapons[currentWeapon];
 
-
   ammo =
     selectedWeapon.magazine;
 
-
   weaponNameText.textContent =
     selectedWeapon.name;
-
 
   maxAmmoText.textContent =
     "/" +
     selectedWeapon.magazine;
 
-
   document
-    .querySelectorAll(
-      ".weaponBtn"
-    )
+    .querySelectorAll(".weaponBtn")
     .forEach(button => {
 
-      button.classList.remove(
-        "active"
-      );
+      button.classList.remove("active");
 
     });
-
 
   const selected =
     document.querySelector(
       `[data-weapon="${index}"]`
     );
 
-
   if (selected) {
 
-    selected.classList.add(
-      "active"
-    );
+    selected.classList.add("active");
 
   }
-
 
   updateHUD();
 
@@ -317,9 +320,7 @@ function setWeapon(index) {
 ========================= */
 
 document
-  .querySelectorAll(
-    ".weaponBtn"
-  )
+  .querySelectorAll(".weaponBtn")
   .forEach(button => {
 
     button.addEventListener(
@@ -329,15 +330,10 @@ document
         if (reloading)
           return;
 
-
         const index =
-          Number(
-            button.dataset.weapon
-          );
-
+          Number(button.dataset.weapon);
 
         setWeapon(index);
-
 
         showMessage(
           weapons[index].name
@@ -359,7 +355,6 @@ adsBtn.addEventListener(
   { passive: false }
 );
 
-
 adsBtn.addEventListener(
   "mousedown",
   toggleADS
@@ -371,50 +366,33 @@ function toggleADS(event) {
   if (event)
     event.preventDefault();
 
-
   if (!playing)
     return;
-
 
   if (reloading)
     return;
 
-
-  aiming =
-    !aiming;
-
+  aiming = !aiming;
 
   if (aiming) {
 
-    game.classList.add(
-      "aiming"
-    );
+    game.classList.add("aiming");
 
-    adsBtn.classList.add(
-      "active"
-    );
+    adsBtn.classList.add("active");
 
-    adsBtn.textContent =
-      "AIM";
+    adsBtn.textContent = "AIM";
 
-    adsStatus.textContent =
-      "ADS";
+    adsStatus.textContent = "ADS";
 
   } else {
 
-    game.classList.remove(
-      "aiming"
-    );
+    game.classList.remove("aiming");
 
-    adsBtn.classList.remove(
-      "active"
-    );
+    adsBtn.classList.remove("active");
 
-    adsBtn.textContent =
-      "ADS";
+    adsBtn.textContent = "ADS";
 
-    adsStatus.textContent =
-      "HIP FIRE";
+    adsStatus.textContent = "HIP FIRE";
 
   }
 
@@ -428,16 +406,10 @@ function toggleADS(event) {
 function updateHUD() {
 
   healthText.textContent =
-    Math.max(
-      0,
-      health
-    );
+    Math.max(0, health);
 
   armorText.textContent =
-    Math.max(
-      0,
-      armor
-    );
+    Math.max(0, armor);
 
   scoreText.textContent =
     score;
@@ -454,29 +426,23 @@ function updateHUD() {
 
 function startGameLoop() {
 
-  cancelAnimationFrame(
-    gameLoop
-  );
-
+  cancelAnimationFrame(gameLoop);
 
   function loop() {
 
     if (!playing)
       return;
 
-
     movePlayer();
+
+    updateCamera();
 
     updateWorld();
 
-
     gameLoop =
-      requestAnimationFrame(
-        loop
-      );
+      requestAnimationFrame(loop);
 
   }
-
 
   loop();
 
@@ -492,20 +458,16 @@ function movePlayer() {
   if (!joystickActive)
     return;
 
-
   const speed =
     aiming
       ? 0.055
       : 0.10;
 
-
   playerX +=
     joystickX * speed;
 
-
   playerY +=
     joystickY * speed;
-
 
   playerX =
     Math.max(
@@ -516,7 +478,6 @@ function movePlayer() {
       )
     );
 
-
   playerY =
     Math.max(
       5,
@@ -525,6 +486,78 @@ function movePlayer() {
         playerY
       )
     );
+
+}
+
+
+/* =========================
+   CAMERA
+========================= */
+
+function updateCamera() {
+
+  const yaw =
+    cameraYaw;
+
+  const pitch =
+    cameraPitch;
+
+  cameraWorld.style.transform =
+    `
+      translate(
+        ${-yaw * 1.2}px,
+        ${pitch * 0.8}px
+      )
+      scale(1.08)
+    `;
+
+
+  updateDirection();
+
+}
+
+
+/* =========================
+   DIRECTION
+========================= */
+
+function updateDirection() {
+
+  let angle =
+    cameraYaw % 360;
+
+  if (angle < 0)
+    angle += 360;
+
+  let direction;
+
+  if (
+    angle >= 315 ||
+    angle < 45
+  ) {
+
+    direction = "NORTH";
+
+  } else if (
+    angle < 135
+  ) {
+
+    direction = "EAST";
+
+  } else if (
+    angle < 225
+  ) {
+
+    direction = "SOUTH";
+
+  } else {
+
+    direction = "WEST";
+
+  }
+
+  directionText.textContent =
+    direction;
 
 }
 
@@ -540,24 +573,183 @@ function updateWorld() {
       "battlefield"
     );
 
-
   if (!battlefield)
     return;
 
-
-  const cameraX =
+  const movementX =
     (playerX - 50) * -2;
 
-
-  const cameraY =
+  const movementY =
     (playerY - 50) * -1.5;
 
-
   battlefield.style.transform =
-    `translate(
-      ${cameraX}px,
-      ${cameraY}px
-    )`;
+    `
+      translate(
+        ${movementX}px,
+        ${movementY}px
+      )
+    `;
+
+}
+
+
+/* =========================
+   LOOK CONTROLS
+========================= */
+
+lookArea.addEventListener(
+  "touchstart",
+  startLook,
+  { passive: false }
+);
+
+lookArea.addEventListener(
+  "touchmove",
+  moveLook,
+  { passive: false }
+);
+
+lookArea.addEventListener(
+  "touchend",
+  stopLook,
+  { passive: false }
+);
+
+lookArea.addEventListener(
+  "touchcancel",
+  stopLook,
+  { passive: false }
+);
+
+
+function startLook(event) {
+
+  if (!playing)
+    return;
+
+  event.preventDefault();
+
+  const touch =
+    event.changedTouches[0];
+
+  lookActive = true;
+
+  lookTouchId =
+    touch.identifier;
+
+  lastLookX =
+    touch.clientX;
+
+  lastLookY =
+    touch.clientY;
+
+  lookArea.classList.add(
+    "active"
+  );
+
+}
+
+
+function moveLook(event) {
+
+  if (!lookActive)
+    return;
+
+  event.preventDefault();
+
+  let touch = null;
+
+  for (
+    const currentTouch
+    of event.changedTouches
+  ) {
+
+    if (
+      currentTouch.identifier ===
+      lookTouchId
+    ) {
+
+      touch = currentTouch;
+
+      break;
+
+    }
+
+  }
+
+  if (!touch)
+    return;
+
+
+  const dx =
+    touch.clientX -
+    lastLookX;
+
+  const dy =
+    touch.clientY -
+    lastLookY;
+
+
+  const sensitivity =
+    aiming
+      ? 0.55
+      : 0.85;
+
+
+  cameraYaw +=
+    dx * sensitivity;
+
+  cameraPitch +=
+    dy * sensitivity;
+
+
+  cameraPitch =
+    Math.max(
+      -80,
+      Math.min(
+        80,
+        cameraPitch
+      )
+    );
+
+
+  lastLookX =
+    touch.clientX;
+
+  lastLookY =
+    touch.clientY;
+
+
+  updateCamera();
+
+
+  crosshair.style.transform =
+    `
+      translate(
+        calc(-50% + ${dx * 0.35}px),
+        calc(-50% + ${dy * 0.35}px)
+      )
+    `;
+
+}
+
+
+function stopLook(event) {
+
+  if (event)
+    event.preventDefault();
+
+  lookActive = false;
+
+  lookTouchId = null;
+
+  lookArea.classList.remove(
+    "active"
+  );
+
+
+  crosshair.style.transform =
+    "translate(-50%,-50%)";
 
 }
 
@@ -570,7 +762,6 @@ function showMessage(text) {
 
   message.textContent =
     text;
-
 
   setTimeout(() => {
 
@@ -598,47 +789,35 @@ function shoot(event) {
   if (event)
     event.preventDefault();
 
-
   if (!playing)
     return;
-
 
   if (reloading)
     return;
 
-
   if (!canShoot)
     return;
-
 
   const selectedWeapon =
     weapons[currentWeapon];
 
-
   if (ammo <= 0) {
 
-    showMessage(
-      "RELOAD!"
-    );
+    showMessage("RELOAD!");
 
     return;
 
   }
 
-
   ammo--;
 
   updateHUD();
 
-
   muzzle();
-
 
   recoil();
 
-
   canShoot = false;
-
 
   setTimeout(() => {
 
@@ -666,24 +845,21 @@ function shoot(event) {
     const damage =
       aiming
         ? Math.round(
-            selectedWeapon.damage * 1.15
+            selectedWeapon.damage *
+            1.15
           )
         : selectedWeapon.damage;
-
 
     damageEnemy(
       target,
       damage
     );
 
-
     showHitMarker();
 
   } else {
 
-    showMessage(
-      "MISS"
-    );
+    showMessage("MISS");
 
   }
 
@@ -704,15 +880,9 @@ function recoil() {
     "recoil"
   );
 
-
-  /*
-    Force animation restart.
-  */
-
   void weapon.offsetWidth;
 
   void crosshair.offsetWidth;
-
 
   weapon.classList.add(
     "recoil"
@@ -721,7 +891,6 @@ function recoil() {
   crosshair.classList.add(
     "recoil"
   );
-
 
   setTimeout(() => {
 
@@ -747,7 +916,6 @@ function muzzle() {
   muzzleFlash.style.opacity =
     "1";
 
-
   setTimeout(() => {
 
     muzzleFlash.style.opacity =
@@ -766,7 +934,6 @@ function showHitMarker() {
 
   hitMarker.style.opacity =
     "1";
-
 
   setTimeout(() => {
 
@@ -787,7 +954,6 @@ function showDamageEffect() {
   damageOverlay.style.opacity =
     "1";
 
-
   setTimeout(() => {
 
     damageOverlay.style.opacity =
@@ -807,18 +973,14 @@ function reload(event) {
   if (event)
     event.preventDefault();
 
-
   if (!playing)
     return;
-
 
   if (reloading)
     return;
 
-
   const selectedWeapon =
     weapons[currentWeapon];
-
 
   if (
     ammo ===
@@ -833,9 +995,7 @@ function reload(event) {
 
   }
 
-
   reloading = true;
-
 
   showMessage(
     "RELOADING..."
@@ -847,20 +1007,14 @@ function reload(event) {
     if (!playing)
       return;
 
-
     ammo =
       selectedWeapon.magazine;
 
-
     reloading = false;
-
 
     updateHUD();
 
-
-    showMessage(
-      "READY"
-    );
+    showMessage("READY");
 
   }, 1000);
 
@@ -877,13 +1031,11 @@ joystick.addEventListener(
   { passive: false }
 );
 
-
 joystick.addEventListener(
   "touchmove",
   moveJoystick,
   { passive: false }
 );
-
 
 joystick.addEventListener(
   "touchend",
@@ -908,41 +1060,32 @@ function moveJoystick(event) {
   if (!joystickActive)
     return;
 
-
   event.preventDefault();
-
 
   const touch =
     event.touches[0];
 
-
   const rect =
     joystick.getBoundingClientRect();
-
 
   const centerX =
     rect.left +
     rect.width / 2;
 
-
   const centerY =
     rect.top +
     rect.height / 2;
-
 
   let dx =
     touch.clientX -
     centerX;
 
-
   let dy =
     touch.clientY -
     centerY;
 
-
   const maxDistance =
     40;
-
 
   const distance =
     Math.sqrt(
@@ -960,7 +1103,6 @@ function moveJoystick(event) {
       (dx / distance) *
       maxDistance;
 
-
     dy =
       (dy / distance) *
       maxDistance;
@@ -970,7 +1112,6 @@ function moveJoystick(event) {
 
   joystickX =
     dx / maxDistance;
-
 
   joystickY =
     dy / maxDistance;
@@ -990,14 +1131,11 @@ function stopJoystick(event) {
   if (event)
     event.preventDefault();
 
-
   joystickActive = false;
-
 
   joystickX = 0;
 
   joystickY = 0;
-
 
   stick.style.transform =
     "translate(-50%,-50%)";
@@ -1015,19 +1153,16 @@ shootBtn.addEventListener(
   { passive: false }
 );
 
-
 reloadBtn.addEventListener(
   "touchstart",
   reload,
   { passive: false }
 );
 
-
 shootBtn.addEventListener(
   "mousedown",
   shoot
 );
-
 
 reloadBtn.addEventListener(
   "mousedown",
@@ -1044,19 +1179,15 @@ function gameOver() {
   if (!playing)
     return;
 
-
   playing = false;
-
 
   clearInterval(
     enemyAttackTimer
   );
 
-
   cancelAnimationFrame(
     gameLoop
   );
-
 
   showMessage(
     "MISSION FAILED"
@@ -1073,10 +1204,8 @@ function gameOver() {
       "hidden"
     );
 
-
     message.textContent =
       "";
-
 
     document
       .querySelectorAll(
@@ -1090,4 +1219,4 @@ function gameOver() {
 
   }, 1800);
 
-}
+   }
