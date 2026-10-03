@@ -1,0 +1,315 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  touch-action: none;
+  user-select: none;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #050509;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* MAIN MENU */
+#menu {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at center, #251044 0%, #08050d 45%, #020204 100%);
+  text-align: center;
+}
+
+#menu h1 {
+  font-size: 58px;
+  letter-spacing: 8px;
+  font-weight: 900;
+  text-shadow: 0 0 20px #8d3cff;
+}
+
+#menu h2 {
+  font-size: 24px;
+  letter-spacing: 6px;
+  margin-top: 5px;
+}
+
+#menu p {
+  margin-top: 12px;
+  color: #aaa;
+  letter-spacing: 4px;
+}
+
+#playBtn {
+  margin-top: 45px;
+  width: 220px;
+  height: 65px;
+  border: 2px solid #9b4dff;
+  border-radius: 10px;
+  background: #160b25;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  box-shadow: 0 0 25px #702cff;
+}
+
+#playBtn:active {
+  transform: scale(0.94);
+}
+
+/* GAME */
+#game {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  background:
+    linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.35)),
+    radial-gradient(circle at center, #424242 0%, #1d1d1d 55%, #090909 100%);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* HUD */
+#hud {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+
+  display: flex;
+  justify-content: space-between;
+
+  padding: 12px 16px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 10px;
+
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(5px);
+
+  font-size: 14px;
+  font-weight: bold;
+
+  z-index: 20;
+}
+
+/* CROSSHAIR */
+#crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: 32px;
+  font-weight: bold;
+
+  text-shadow: 0 0 8px black;
+
+  z-index: 10;
+}
+
+/* ENEMY */
+#enemy {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+
+  width: 70px;
+  height: 120px;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 5;
+}
+
+.enemyBody {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 35px 35px 12px 12px;
+
+  background:
+    linear-gradient(#8c8c8c 0 25%, #242424 25% 100%);
+
+  border: 3px solid #111;
+
+  box-shadow:
+    0 0 15px rgba(0,0,0,.7);
+}
+
+.enemyBody::before {
+  content: "";
+  position: absolute;
+
+  width: 35px;
+  height: 35px;
+
+  left: 50%;
+  top: -38px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: #777;
+  border: 3px solid #111;
+}
+
+/* CONTROLS */
+#controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+
+  height: 180px;
+
+  z-index: 30;
+}
+
+/* JOYSTICK */
+#joystick {
+  position: absolute;
+
+  left: 25px;
+  bottom: 15px;
+
+  width: 125px;
+  height: 125px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255,255,255,.25);
+
+  background: rgba(0,0,0,.35);
+}
+
+#stick {
+  position: absolute;
+
+  width: 55px;
+  height: 55px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: rgba(150,70,255,.65);
+
+  border: 2px solid #b875ff;
+
+  box-shadow: 0 0 15px #7b35d6;
+}
+
+/* BUTTONS */
+#actionButtons {
+  position: absolute;
+
+  right: 25px;
+  bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#shootBtn,
+#reloadBtn {
+  border-radius: 50%;
+
+  color: white;
+  font-weight: bold;
+
+  border: 2px solid rgba(255,255,255,.4);
+
+  background: rgba(0,0,0,.55);
+
+  box-shadow: 0 0 15px rgba(0,0,0,.6);
+}
+
+#shootBtn {
+  width: 90px;
+  height: 90px;
+
+  border-color: #ff5555;
+
+  font-size: 15px;
+}
+
+#reloadBtn {
+  width: 60px;
+  height: 60px;
+
+  font-size: 28px;
+}
+
+#shootBtn:active,
+#reloadBtn:active {
+  transform: scale(.9);
+}
+
+/* MESSAGE */
+#message {
+  position: absolute;
+
+  left: 50%;
+  top: 30%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: 28px;
+  font-weight: bold;
+
+  text-align: center;
+
+  text-shadow: 0 0 10px black;
+
+  z-index: 40;
+}
+
+/* SMALL PHONES */
+@media (max-width: 400px) {
+
+  #menu h1 {
+    font-size: 45px;
+  }
+
+  #menu h2 {
+    font-size: 19px;
+  }
+
+  #joystick {
+    width: 105px;
+    height: 105px;
+  }
+
+  #stick {
+    width: 48px;
+    height: 48px;
+  }
+
+  #shootBtn {
+    width: 78px;
+    height: 78px;
+  }
+
+  #reloadBtn {
+    width: 52px;
+    height: 52px;
+  }
+  }
