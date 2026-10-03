@@ -45,18 +45,10 @@
 
   <div id="game" class="hidden">
 
-    <!-- Battlefield -->
-    <!-- Created by map.js -->
-
-
-    <!-- Damage overlay -->
-
     <div id="damageOverlay"></div>
 
 
-    <!-- =========================
-         HUD
-    ========================== -->
+    <!-- HUD -->
 
     <div id="hud">
 
@@ -79,37 +71,27 @@
 
         SCORE
 
-        <span id="score">
-          0
-        </span>
+        <span id="score">0</span>
 
       </div>
 
 
       <div class="ammoBox">
 
-        <span id="ammo">
-          30
-        </span>
+        <span id="ammo">30</span>
 
-        <small>
-          /30
-        </small>
+        <small>/30</small>
 
       </div>
 
     </div>
 
 
-    <!-- =========================
-         MISSION
-    ========================== -->
+    <!-- MISSION -->
 
     <div id="mission">
 
-      <span>
-        MISSION
-      </span>
+      <span>MISSION</span>
 
       <strong>
         ELIMINATE HOSTILES
@@ -118,9 +100,7 @@
     </div>
 
 
-    <!-- =========================
-         CROSSHAIR
-    ========================== -->
+    <!-- CROSSHAIR -->
 
     <div id="crosshair">
 
@@ -137,12 +117,10 @@
     </div>
 
 
-    <!-- =========================
-         LEGACY ENEMY
-         Kept for compatibility
-    ========================== -->
+    <!-- OLD ENEMY
+         Hidden by V5 -->
 
-    <div id="enemy">
+    <div id="enemy" style="display:none;">
 
       <div class="enemyHead"></div>
 
@@ -153,9 +131,7 @@
     </div>
 
 
-    <!-- =========================
-         HIT MARKER
-    ========================== -->
+    <!-- HIT MARKER -->
 
     <div id="hitMarker">
 
@@ -167,16 +143,12 @@
     </div>
 
 
-    <!-- =========================
-         MUZZLE FLASH
-    ========================== -->
+    <!-- MUZZLE FLASH -->
 
     <div id="muzzleFlash"></div>
 
 
-    <!-- =========================
-         WEAPON
-    ========================== -->
+    <!-- WEAPON -->
 
     <div id="weapon">
 
@@ -191,21 +163,16 @@
     </div>
 
 
-    <!-- =========================
-         GAME MESSAGE
-    ========================== -->
+    <!-- MESSAGE -->
 
     <div id="message"></div>
 
 
-    <!-- =========================
-         MOBILE CONTROLS
-    ========================== -->
+    <!-- CONTROLS -->
 
     <div id="controls">
 
-
-      <!-- Movement -->
+      <!-- JOYSTICK -->
 
       <div id="joystick">
 
@@ -214,7 +181,7 @@
       </div>
 
 
-      <!-- Actions -->
+      <!-- ACTION BUTTONS -->
 
       <div id="actionButtons">
 
@@ -243,7 +210,7 @@
 
 
   <!-- =========================
-       JAVASCRIPT
+       SCRIPTS
   ========================== -->
 
   <script src="game.js"></script>
